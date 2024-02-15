@@ -1,6 +1,6 @@
 name = "DeepRecurrentEncoder"
 uuid = "81cdbb96-0126-4941-b8f1-96022f2db8f3"
-authors = ["Benedikt V. Ehinger"]
+authors = ["Benedikt V. Ehinger", "Oliver Koppenhöfer"]
 version = "1.0.0-DEV"
 
 [compat]
