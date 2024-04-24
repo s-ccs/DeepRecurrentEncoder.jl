@@ -8,26 +8,20 @@ end
 """
 # hidden_chs corresponds to the number of filters in the conv layer & the number of hidden units in the LSTM
 """
-function DRE(in_chs::Int, hidden_chs::Int, out_chs::Int; kernel_size=4)
+function DRE(in_chs::Int, hidden_chs::Int, out_chs::Int; kernel_size=4,stride=2)
     return DRE(LSTMCell(hidden_chs => hidden_chs),
-        Conv((kernel_size,), (in_chs => hidden_chs), identity, stride=(2,), use_bias=true, pad=SamePad()),
-        ConvTranspose((kernel_size,), (hidden_chs => out_chs), identity, stride=(2,), use_bias=true, pad=SamePad()))
+        Conv((kernel_size,), (in_chs => hidden_chs), identity, stride=(stride,), use_bias=true, pad=SamePad()),
+        ConvTranspose((kernel_size,), (hidden_chs => out_chs), identity, stride=(stride,), use_bias=true, pad=SamePad()))
 end
 
 function (s::DRE)(x::AbstractArray{T,3}, ps::NamedTuple,
     st::NamedTuple) where {T}
     # conv layer expects input of shape (time, channel, epoch)
     #x = permutedims(x, (2, 1, 3))
-    #show "huhu2"
     # apply convolutional layers
-    #@show typeof(x)
-    #@show typeof(s.encoder)
-    #@show typeof(ps.encoder)
-    #@show typeof(st.encoder)
-    #@show typeof(s)
+ 
     encoded, st_encoder = s.encoder(x, ps.encoder, st.encoder)
-    #@show "buh!"
-    #@show encoded
+ 
     # apply lstm layers
     x_init, x_rest = Iterators.peel(eachslice(encoded; dims=1))
     (y, carry), st_lstm = s.lstm_cell(x_init, ps.lstm_cell, st.lstm_cell)
