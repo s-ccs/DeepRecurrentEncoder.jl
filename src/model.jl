@@ -17,14 +17,8 @@ end
 function (s::DRE)(x::AbstractArray{T,3}, ps::NamedTuple,
     st::NamedTuple) where {T}
     # conv layer expects input of shape (time, channel, epoch)
-    #x = permutedims(x, (2, 1, 3))
-    #show "huhu2"
     # apply convolutional layers
-    #@show typeof(x)
-    #@show typeof(s.encoder)
-    #@show typeof(ps.encoder)
-    #@show typeof(st.encoder)
-    #@show typeof(s)
+
     encoded, st_encoder = s.encoder(x, ps.encoder, st.encoder)
     #@show "buh!"
     #@show encoded
@@ -53,27 +47,3 @@ function create_optimiser(ps, lr=0.001)
     return Optimisers.setup(opt, ps)
 end
 
-
-"""
-# eeg is a 3d array of shape (channel, time, epoch)
-# stimuli is a DataFrame with a row discribing the stimuli for each epoch
-# p is the percentage of the time at the beginning of each epoch that the input is not masked, the masked end of each epoch is 0
-# To indicate whether the input is masked, the channel dimension is increased by 1 to add a new binary value for each timestep.
-# Each timestep the stimulus is also added to the input, increasing the channel dim by 4 (2 one-hot encoded binary values)
-"""
-function get_model_input(eeg::Array, stimuli, p)
-    masked = Array{Float64,3}(undef, size(eeg, 1) + 1 + 4, size(eeg, 2), size(eeg, 3))
-    add_mask!(masked, eeg, p)
-
-    # Add the stimulus to the input
-    for epoch in 1:size(eeg, 3)
-        s = stimuli.sight[epoch]
-        h = stimuli.hearing[epoch]
-        idx = (s == "red" ? 0 : 1) + (h == "silent" ? 0 : 2) + 1
-        # init all to 0
-        masked[size(eeg, 1)+2:size(eeg, 1)+5, :, epoch] .= 0.01
-        # set one node to 1
-        masked[size(eeg, 1)+1+idx, :, epoch] .= 0.99
-    end
-    return masked
-end
