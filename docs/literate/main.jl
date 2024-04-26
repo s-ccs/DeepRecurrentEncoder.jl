@@ -7,9 +7,9 @@ using GLMakie
 using Statistics
 using LuxCUDA
 using Revise
-testdata = includet("../../testdata.jl")
+includet("../testdata.jl")
 rng = MersenneTwister(1)
-data,evts = testdata.simulate_data(rng,1000);
+data,evts = simulate_data(rng,1000);
 
 begin
 	in_chs = size(data, 1) + 1 + 0    # no. of eeg channels + mask + stimuli representation
@@ -29,11 +29,10 @@ end
 	 	data_fit = CuArray(data_fit)
 	 end
 	
-    ps, st = DeepRecurrentEncoder.train(data_fit, dre, ps, st; epochs=50,batch_size=500)
+    ps, st = DeepRecurrentEncoder.(data_fit, dre, ps, st; epochs=50,batch_size=500)
  end
 
-
-begin
+ begin
 	eeg_test = Float32.(permutedims(data[:,:,1:1],[2,1,3]))
 	if use_gpu
 	eeg_test = CuArray(eeg_test)
