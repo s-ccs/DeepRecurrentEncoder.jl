@@ -3,12 +3,7 @@ using Random
 #using PyMNE
 using CSV
 # returns tuple (matrix of shape 7*basisLength*4000, df with 4000 rows and 2 columns stating the values of the observation)) 
-<<<<<<< HEAD
-function simulate_data(rng, epochs;noiselevel=1)
-=======
 function simulate_data(rng, epochs; sfreq=100)
->>>>>>> 71d217a931eaf813b0af81d1cafd7434fcb7f2c3
-    # start by defining the design / event-table
     design = SingleSubjectDesign(;
         conditions=Dict(:sight => ["red", "blue"],
             :hearing => ["silent", "loud"])) |> d -> RepeatDesign(d, epochs)
@@ -40,11 +35,7 @@ function simulate_data(rng, epochs; sfreq=100)
 
     # finally, define some Onset Distribution and Noise, and simulate!
     # channel, time, epoch
-<<<<<<< HEAD
-    data = simulate(rng, design, components, UniformOnset(; offset=150, width=4), PinkNoise(;noiselevel=noiselevel), return_epoched=true)
-=======
     data = simulate(rng, design, components, UniformOnset(; offset=Int(round(1.5 * sfreq)), width=Int(round(0.04 * sfreq))), PinkNoise(), return_epoched=true)
->>>>>>> 71d217a931eaf813b0af81d1cafd7434fcb7f2c3
     return (data[1], data[2])
 end
 

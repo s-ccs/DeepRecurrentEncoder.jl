@@ -17,14 +17,9 @@ end
 function (s::DRE)(x::AbstractArray{T,3}, ps::NamedTuple,
     st::NamedTuple) where {T}
     # conv layer expects input of shape (time, channel, epoch)
-<<<<<<< HEAD
     #x = permutedims(x, (2, 1, 3))
     # apply convolutional layers
- 
-=======
     # apply convolutional layers
-
->>>>>>> 71d217a931eaf813b0af81d1cafd7434fcb7f2c3
     encoded, st_encoder = s.encoder(x, ps.encoder, st.encoder)
  
     # apply lstm layers

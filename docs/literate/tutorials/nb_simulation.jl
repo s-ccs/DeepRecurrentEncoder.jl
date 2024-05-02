@@ -24,6 +24,9 @@ end
 # ╔═╡ 576b8ed6-58da-4c6d-a447-8aab6094241a
 @revise using DeepRecurrentEncoder
 
+# ╔═╡ 3d6f6750-df4f-441a-94c2-fea9a4d3971f
+
+
 # ╔═╡ 9e4a1e93-9eba-47f5-ba42-785b70e19990
 testdata = @ingredients("../../testdata.jl")
 
@@ -42,8 +45,11 @@ data, evts = testdata.simulate_data(rng, 100;sfreq=100);
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
 
+# ╔═╡ 30b5fe96-a221-446f-8b2e-3f0c20f6a1ae
+
+
 # ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
-use_gpu = true
+use_gpu = false
 
 # ╔═╡ 618d269f-6a3c-4cc4-8b4a-4fb10836122d
 #dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
@@ -77,6 +83,7 @@ series(data[:,:,6]; solid_color=:black)
 
 # ╔═╡ Cell order:
 # ╠═2ff5fd18-cbf4-11ee-3733-f79124ce7587
+# ╠═3d6f6750-df4f-441a-94c2-fea9a4d3971f
 # ╠═96ba849e-7662-4178-80cb-d37707c9915e
 # ╠═9e4a1e93-9eba-47f5-ba42-785b70e19990
 # ╠═35932abf-10b2-4e85-9090-98dc09499d66
@@ -85,6 +92,7 @@ series(data[:,:,6]; solid_color=:black)
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
 # ╠═576b8ed6-58da-4c6d-a447-8aab6094241a
+# ╠═30b5fe96-a221-446f-8b2e-3f0c20f6a1ae
 # ╠═618d269f-6a3c-4cc4-8b4a-4fb10836122d
 # ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═9ccac6e4-5526-4b0c-851e-f1b0b698a40b
