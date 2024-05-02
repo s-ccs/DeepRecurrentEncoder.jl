@@ -1,62 +1,71 @@
 
-function train(eeg, dre, ps, st; lr=0.01, batch_size=32, epochs=1, mask_percentage=0.3)
-    @info "Input data is a $(typeof(eeg)) with size $(size(eeg))"
+function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_size=32, show_progress=true)
+    @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
 
     # conv layer expects input of shape (time, channel, epoch)
-    eeg = permutedims(eeg, (2, 1, 3))
-
-    masked_eeg = add_mask(eeg, mask_percentage)
     opt_state = create_optimiser(ps, lr)
-    for epoch in 1:epochs
+    p = Progress(n_epochs)
+    for epoch in 1:n_epochs
         loss_epoch = 0
-        for j in 1:size(eeg, 3)÷batch_size
-            start_index = (j - 1) * batch_size + 1
-            end_index = j * batch_size
-            end_index = end_index > size(eeg, 3) ? size(eeg, 3) : end_index
-            eeg_batch = eeg[:, :, start_index:end_index]
-            mask_batch = masked_eeg[:, :, start_index:end_index]
-            #@show typeof(mask_batch)
-            #@show typeof(eeg_batch)
-            (loss, y_pred, st), back = pullback(compute_loss, mask_batch, eeg_batch, dre, ps, st)
+        for j in range(1, size(eeg_in, 3), step=batch_size)
+            start_index = j
+            end_index = j + batch_size
+            end_index = end_index > size(eeg_in, 3) ? size(eeg_in, 3) : end_index
+            eeg_out_batch = eeg_out[:, :, start_index:end_index]
+            eeg_in_batch = eeg_in[:, :, start_index:end_index]
+            #            @debug size(eeg_in_batch), size(eeg_out_batch), ps, st
+
+            (loss, y_pred, st), back = pullback(compute_loss, eeg_in_batch, eeg_out_batch, dre, ps, st)
             loss_epoch += loss
             gs = back((one(loss), nothing, nothing))[4]
             opt_state, ps = Optimisers.update(opt_state, ps, gs)
         end
-        println("-----------------------------------")
-        loss_epoch = loss_epoch / size(eeg, 3)
-        println("Epoch [$epoch]: Loss " * string(loss_epoch))
+
+        loss_epoch = loss_epoch / size(eeg_in, 3)
+        if show_progress
+            next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
+        end
+
     end
     return ps, st
 end
 
 
+
+function test(dre, data, ps, st; kwargs...)
+    @error "not yet implemented"
+    test(dre, data, similar(data, 0, 0), ps, st; kwargs...)
+end
+
+function test(dre, data::AbstractArray{T,3}, f, evts, ps, st; kwargs...) where {T}
+    designmatrix = T.(generate_designmatrix(f, evts))
+    test(dre, data, designmatrix, ps, st; kwargs...)
+end
+function test(dre, data::AbstractArray, designmatrix::AbstractArray, ps, st; subset_index=1:size(data, 3), kwargs...)
+    input_data, output_data = DeepRecurrentEncoder.prepare_data(data[:, :, subset_index], designmatrix[subset_index, :])
+    l, y_pred = test(input_data, output_data, dre, ps, st; kwargs...)
+    return l, y_pred
+
+end
+
 # returns average loss
-#function test(x, y, dre, ps, st)
-#    loss = 0
-#    for i in 1:size(x, 3)
-#        l, y_pred, st = compute_loss(x, y, dre, ps, st)
-#        loss += l
-#    end
-#    return loss / size(x, 3)
-#end
 
-
-
-
-# returns average loss
-function test(eeg, dre, ps, st; mask_percentage=0.3, batch_size=32)
+function test(eeg_in::AbstractArray{T,3}, eeg_out, dre, ps, st; batch_size=32, kwargs...) where {T}
+    @debug size(eeg_in), size(eeg_out)
     loss = 0
-    for j in 1:size(eeg, 3)÷batch_size
-        start_index = (j - 1) * batch_size + 1
-        end_index = j * batch_size
-        end_index = end_index > size(eeg, 3) ? size(eeg, 3) : end_index
-        eeg_batch = eeg[:, :, start_index:end_index]
-        masked_eeg = add_mask(eeg_batch, mask_percentage)
-        #println(size(masked_eeg))
-        #println(size(eeg_batch))
-        l, y_pred, st = compute_loss(masked_eeg, eeg_batch, dre, ps, st)
+    y_pred = Array{T}(undef, size(eeg_out)...)
+    for j in range(1, size(eeg_in, 3), step=batch_size)
+        start_index = j
+        end_index = j + batch_size
+        end_index = end_index > size(eeg_in, 3) ? size(eeg_in, 3) : end_index
+        eeg_in_batch = eeg_in[:, :, start_index:end_index]
+        eeg_out_batch = eeg_out[:, :, start_index:end_index]
+        @debug typeof(eeg_in_batch), typeof(eeg_out_batch), typeof(y_pred)
+
+        l, y_pred_tmp, st = compute_loss(eeg_in_batch, eeg_out_batch, dre, ps, st)
+        y_pred[:, :, start_index:end_index] .= Array(y_pred_tmp)
         loss += l
     end
     #plot_eeg_prediction(eeg[:, :, 1], dre, ps, st, p)
-    return loss / size(eeg, 3)
+    return loss / size(eeg_in, 3), y_pred
 end
