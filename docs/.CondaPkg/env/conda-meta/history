@@ -1,5 +1,5 @@
-==> 2024-04-24 11:50:51 <==
-# cmd: C:\Users\wangh\.julia\artifacts\cba433181fa6470b206db49415f1b7593a9d25ff\bin\micromamba.exe -r C:\Users\wangh\.julia\scratchspaces\0b3b1443-0f03-428d-bdfb-f27f9c1191ea\root create -y -p c:\Users\wangh\OneDrive\Desktop\julia\DeepRecurrentEncoder.jl\docs\.CondaPkg\env --override-channels --no-channel-priority pip[version='>=22.0.0'] python[version='>=3.4,<4'] python[version='>=3.7,<4',channel='anaconda'] -c anaconda -c conda-forge
+==> 2024-05-04 14:05:29 <==
+# cmd: C:\Users\ramna\.julia\artifacts\cba433181fa6470b206db49415f1b7593a9d25ff\bin\micromamba.exe -r C:\Users\ramna\.julia\scratchspaces\0b3b1443-0f03-428d-bdfb-f27f9c1191ea\root create -y -p C:\Masters_Infotech\Semester_2\FachPraktikum_Computational_Methods_In_EEG\DeepRecurrentEncoder.jl\docs\.CondaPkg\env --override-channels --no-channel-priority pip[version='>=22.0.0'] python[version='>=3.8,<4',channel='anaconda'] python[version='>=3.4,<4'] -c anaconda -c conda-forge
 # conda version: 3.8.0
 +https://conda.anaconda.org/conda-forge/win-64::libexpat-2.6.2-h63175ca_0
 +https://conda.anaconda.org/conda-forge/win-64::ucrt-10.0.22621.0-h57928b3_0
@@ -11,7 +11,7 @@
 +https://conda.anaconda.org/conda-forge/win-64::libzlib-1.2.13-hcfcfb64_5
 +https://conda.anaconda.org/conda-forge/win-64::tk-8.6.13-h5226925_1
 +https://conda.anaconda.org/conda-forge/win-64::libsqlite-3.45.3-hcfcfb64_0
-+https://conda.anaconda.org/conda-forge/win-64::openssl-3.2.1-hcfcfb64_1
++https://conda.anaconda.org/conda-forge/win-64::openssl-3.3.0-hcfcfb64_0
 +https://conda.anaconda.org/conda-forge/win-64::bzip2-1.0.8-hcfcfb64_5
 +https://conda.anaconda.org/conda-forge/win-64::zlib-1.2.13-hcfcfb64_5
 +https://conda.anaconda.org/conda-forge/win-64::sqlite-3.45.3-hcfcfb64_0
@@ -22,4 +22,4 @@
 +https://conda.anaconda.org/conda-forge/noarch::pip-24.0-pyhd8ed1ab_0
 +https://conda.anaconda.org/conda-forge/noarch::setuptools-69.5.1-pyhd8ed1ab_0
 +https://conda.anaconda.org/conda-forge/noarch::wheel-0.43.0-pyhd8ed1ab_1
-# update specs: ["pip[version='>=22.0.0']", "python[version='>=3.4,<4']", "anaconda::python[version='>=3.7,<4']"]
+# update specs: ["pip[version='>=22.0.0']", "anaconda::python[version='>=3.8,<4']", "python[version='>=3.4,<4']"]
