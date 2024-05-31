@@ -53,11 +53,11 @@ use_gpu = false
 
 # ╔═╡ 618d269f-6a3c-4cc4-8b4a-4fb10836122d
 #dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-dre,ps, st = fit(DRE, Float32.(data)|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=50,lr=0.1,batch_size=256)# |> CuArray)
+dre,ps, st = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=50,lr=0.1,batch_size=256)# |> CuArray)
 
 # ╔═╡ 9ccac6e4-5526-4b0c-851e-f1b0b698a40b
 #l,y_pred = DeepRecurrentEncoder.test(dre,(Float32.(data)|> x->use_gpu ? CuArray(x) : x),ps,st;subset_index=1:10)
-l,y_pred = DeepRecurrentEncoder.test(dre,(Float32.(data)|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10)
+l,y_pred = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10)
 
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8

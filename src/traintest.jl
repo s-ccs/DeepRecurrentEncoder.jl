@@ -14,7 +14,6 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
             eeg_out_batch = eeg_out[:, :, start_index:end_index]
             eeg_in_batch = eeg_in[:, :, start_index:end_index]
             #            @debug size(eeg_in_batch), size(eeg_out_batch), ps, st
-
             (loss, y_pred, st), back = pullback(compute_loss, eeg_in_batch, eeg_out_batch, dre, ps, st)
             loss_epoch += loss
             gs = back((one(loss), nothing, nothing))[4]
