@@ -1,6 +1,6 @@
 using DeepRecurrentEncoder
 using Documenter
-using Literate
+using Literate, Glob
 DocMeta.setdocmeta!(DeepRecurrentEncoder, :DocTestSetup, :(using DeepRecurrentEncoder); recursive=true)
 
 
