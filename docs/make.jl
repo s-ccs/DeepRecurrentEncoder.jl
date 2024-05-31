@@ -28,6 +28,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Getting Started" => "tutorials/generated/gettingstarted.md"
     ],
 )
 
