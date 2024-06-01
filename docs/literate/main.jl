@@ -1,24 +1,27 @@
 using Random
-using PlutoLinks
 using Lux
 using DeepRecurrentEncoder
 using GLMakie
 
+# # This is a heading
+# Hello this will be some text in the documentation
+
 using Statistics
 using LuxCUDA
 using Revise
+using testdata
 includet("../testdata.jl")
+# Create an object of the MersenneTwister, use this object to create random number between 0 and 1
 rng = MersenneTwister(1)
 data,evts = simulate_data(rng,1000);
 
 begin
-	in_chs = size(data, 1) + 1 + 0    # no. of eeg channels + mask + stimuli representation
-	hidden_chs = 3
+	in_chs = size(data, 1) + 1 + 0    ## no. of eeg channels + mask + stimuli representation
+	hidden_chs = 10
 	out_chs = size(data, 1)
 	dre = DRE(in_chs, hidden_chs, out_chs)
 end
 
-# ╔═╡ be61dbf5-9a71-4f81-bf79-0a066bc8fef1
  begin
  	ps, st = Lux.setup(rng, dre)
 	 use_gpu = false

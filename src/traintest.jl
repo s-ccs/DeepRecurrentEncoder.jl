@@ -1,10 +1,13 @@
 
 function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_size=32, show_progress=true)
-    @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
 
+    @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
     # conv layer expects input of shape (time, channel, epoch)
     opt_state = create_optimiser(ps, lr)
     p = Progress(n_epochs)
+    
+    loss_epoch_array = Float64[]
+    loss_epoch_array = Array{Float64}(undef,n_epochs)
     for epoch in 1:n_epochs
         loss_epoch = 0
         for j in range(1, size(eeg_in, 3), step=batch_size)
@@ -24,9 +27,10 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
         if show_progress
             next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
         end
+        loss_epoch_array[epoch] = loss_epoch
 
     end
-    return ps, st
+    return ps, st, loss_epoch_array
 end
 
 
