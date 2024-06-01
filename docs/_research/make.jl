@@ -1,6 +1,6 @@
 using DeepRecurrentEncoder
 using Documenter
-using Literate, Glob
+using literate
 DocMeta.setdocmeta!(DeepRecurrentEncoder, :DocTestSetup, :(using DeepRecurrentEncoder); recursive=true)
 
 
@@ -22,7 +22,7 @@ makedocs(;
     authors="Benedikt V. Ehinger",
     sitename="DeepRecurrentEncoder.jl",
     format=Documenter.HTML(;
-        canonical="https://s-ccs.github.io/DeepRecurrentEncoder.jl",
+        canonical="https://behinger.github.io/DeepRecurrentEncoder.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -33,6 +33,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/s-ccs/DeepRecurrentEncoder.jl",
+    repo="github.com/behinger/DeepRecurrentEncoder.jl",
     devbranch="main",
 )
