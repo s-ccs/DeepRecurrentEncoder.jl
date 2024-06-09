@@ -1,5 +1,4 @@
-using Random
-using Lux
+  using Lux
 using DeepRecurrentEncoder
 using CairoMakie
 
