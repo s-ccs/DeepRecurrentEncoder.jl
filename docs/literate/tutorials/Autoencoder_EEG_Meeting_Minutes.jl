@@ -1,24 +1,3 @@
-## <a name="_29ik9nxpfuz3"></a>2024年4月16日 | [Autoencoder - EEG](https://www.google.com/calendar/event?eid=MWdtNWV1a25mb2s0cWludGlxYzBzajc1aDAgc2hhb2xvbmdzaGkyMDIxQG0)
-Participants: [Shaolong Shi](mailto:shaolongshi2021@gmail.com) [Ramnath Rao Bekal](mailto:ramnathraobekal@gmail.com) <rahulbhaskaram2602@gmail.com>
-
-会议记录
-
-
-操作项
-
-
-Things to learn:
-
-1. What is an autoencoder?
-1. What is a deep autoencoder.
-1. What is LSTM.
-
-Questions to be asked to the professor:
-
-1. Do we have to build an autoencoder from scratch? 
-1. What do you mean by improvement?
-1. Do we have to inculcate LSTM into our Autoencoder
-
 
 
 
