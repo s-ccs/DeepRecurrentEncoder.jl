@@ -15,7 +15,7 @@ Getting started
 text will make a new code cell with new output_data
 
 ````@example Autoencoder_EEG_Meeting_Minutes
-bla = "fooba2"
+bla = "shaolong shi1"
 ````
 
 ---
