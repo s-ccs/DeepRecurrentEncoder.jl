@@ -35,4 +35,5 @@ makedocs(;
 deploydocs(;
     repo="github.com/s-ccs/DeepRecurrentEncoder.jl",
     devbranch="main",
+    push_preview = true,
 )
