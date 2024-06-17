@@ -6,6 +6,7 @@
 
 
 
+print("hello")
 
 
 
@@ -14,8 +15,7 @@
 
 
 
-
-
+print("hello friend")
 
 
 
