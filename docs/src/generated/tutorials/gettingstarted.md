@@ -15,7 +15,7 @@ Getting started
 text will make a new code cell with new output_data
 
 ````@example gettingstarted
-bla = "ramnath"
+bla = "shaolong shi2"
 ````
 
 ---

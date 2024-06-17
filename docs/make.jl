@@ -28,7 +28,8 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Getting Started" => "generated/tutorials/gettingstarted.md"
+        "Getting Started" => "generated/tutorials/gettingstarted.md",
+        "Team_report" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md"
     ],
 )
 
