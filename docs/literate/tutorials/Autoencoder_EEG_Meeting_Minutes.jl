@@ -6,16 +6,17 @@
 
 
 
-print("hello")
+print("1")
 
 
 
 
 
-"hello"
+print("2")
 
 
-print("hello friend")
+
+
 
 
 
