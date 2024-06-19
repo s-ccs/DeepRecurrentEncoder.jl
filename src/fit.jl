@@ -12,7 +12,7 @@ function StatsModels.fit(rng, t::Type{DRE}, data::AbstractArray{T}, f::FormulaTe
     fit(rng, t, data, designmatrix; kwargs...)
 end
 
-function StatsModels.fit(rng, t::Type{DRE}, data::AbstractArray{T,3}, designmatrix::AbstractArray{T,2}=similar(data, 0, 0); hidden_chs=10, kwargs...) where {T}
+function StatsModels.fit(rng, t::Type{DRE}, data::AbstractArray{T,3}, designmatrix::AbstractArray{T,2}=similar(data, 0, 0); hidden_chs, kwargs...) where {T}
     in_chs = size(data, 1) + 1 + size(designmatrix, 2) # channel + mask + stimuli
     out_chs = size(data, 1)
 
@@ -22,9 +22,9 @@ function StatsModels.fit(rng, t::Type{DRE}, data::AbstractArray{T,3}, designmatr
     # permuting dimensions
 
 
-    ps, st, loss_epoch_data = fit!(rng, dre, input_data, output_data; kwargs...)
+    ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit!(rng, dre, input_data, output_data; kwargs...)
 
-    return dre, ps, st, loss_epoch_data
+    return dre, ps, st, loss_epoch_data, loss_epoch_rsquared_data
 
 
 end
@@ -56,6 +56,6 @@ function StatsModels.fit!(rng, dre::DRE, data_input, data_output; n_epochs=1, ba
         st = st |> gpu_device()
     end
 
-    ps, st, loss_epoch_data = train(dre, data_input, data_output, ps, st; n_epochs=n_epochs, batch_size=batch_size)
-    return ps, st, loss_epoch_data
+    ps, st, loss_epoch_data, loss_epoch_rsquared_data = train(dre, data_input, data_output, ps, st; n_epochs=n_epochs, batch_size=batch_size)
+    return ps, st, loss_epoch_data, loss_epoch_rsquared_data
 end

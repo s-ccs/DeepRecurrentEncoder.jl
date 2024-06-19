@@ -6,10 +6,11 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
     opt_state = create_optimiser(ps, lr)
     p = Progress(n_epochs)
     
-    loss_epoch_array = Float64[]
+    loss_epoch_rsquared_array = Array{Float64}(undef,n_epochs)
     loss_epoch_array = Array{Float64}(undef,n_epochs)
     for epoch in 1:n_epochs
         loss_epoch = 0
+        loss_epoch_rsquared = 0
         for j in range(1, size(eeg_in, 3), step=batch_size)
             start_index = j
             end_index = j + batch_size
@@ -18,19 +19,22 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
             eeg_in_batch = eeg_in[:, :, start_index:end_index]
             #            @debug size(eeg_in_batch), size(eeg_out_batch), ps, st
             (loss, y_pred, st), back = pullback(compute_loss, eeg_in_batch, eeg_out_batch, dre, ps, st)
+            loss_rsquared = r_squared(y_pred, eeg_out_batch)
             loss_epoch += loss
+            loss_epoch_rsquared += loss_rsquared
             gs = back((one(loss), nothing, nothing))[4]
             opt_state, ps = Optimisers.update(opt_state, ps, gs)
         end
-
         loss_epoch = loss_epoch / size(eeg_in, 3)
+        loss_epoch_rsquared = loss_epoch_rsquared / size(eeg_in, 3)
         if show_progress
-            next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
+            next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch), (:loss_epoch_rsquared, loss_epoch_rsquared)])
         end
         loss_epoch_array[epoch] = loss_epoch
+        loss_epoch_rsquared_array[epoch] = loss_epoch_rsquared
 
     end
-    return ps, st, loss_epoch_array
+    return ps, st, loss_epoch_array, loss_epoch_rsquared_array
 end
 
 

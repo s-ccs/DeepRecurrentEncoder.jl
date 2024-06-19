@@ -3,7 +3,7 @@ function mse(y_pred, y_true)
 end
 
 function r_squared(y_pred, y_true)
-    y_mean = mean(y_true)
+    y_mean = sum(y_true)/length(y_true)
     ss_tot = sum((y_true .- y_mean) .^ 2)
     ss_res = sum((y_true .- y_pred) .^ 2)
     return 1 - ss_res / ss_tot
