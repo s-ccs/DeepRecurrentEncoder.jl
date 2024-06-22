@@ -76,3 +76,16 @@ function test(eeg_in::AbstractArray{T,3}, eeg_out, dre, ps, st; batch_size=32, k
     #plot_eeg_prediction(eeg[:, :, 1], dre, ps, st, p)
     return loss / size(eeg_in, 3), y_pred
 end
+
+# test(eeg_in...,;loss_function = mse)
+# test(eeg_in...,;loss_function = r_squared)
+# test(eeg_in...,;loss_function = (args...)->r_rsquared(args...; dim = (1,2)))
+# test(eeg_in...,;loss_function = (args...)->r_rsquared(args...; dim = (:time,:channel)))
+
+# test(eeg_in...,;loss_function = r_rsquared; loss_options=(;)) #(;dim = (:time,:channel))))
+# loss_function(bla,blub,...; loss_options...)
+
+#DeepRecurrentEncoder.r_squared
+
+
+            # r_squrared.(eachrow(y_pred),eachrow(eeg_out_batch)) # mapslices
