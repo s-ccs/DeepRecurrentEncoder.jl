@@ -18,6 +18,7 @@ include("fit.jl")
 export DRE
 export compute_loss
 export r_squared
+export mse
 export train
 export test
 export add_mask

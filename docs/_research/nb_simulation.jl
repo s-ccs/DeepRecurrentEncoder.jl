@@ -38,6 +38,9 @@ rng = MersenneTwister(1)
 # ╔═╡ 549d0f75-be94-4460-9085-022f35613b29
 f = @formula 0 ~ 0 + sight+hearing
 
+# ╔═╡ 9ce43061-34bb-4905-b7e2-8fc5f96222cb
+f_hearing = @formula 0 ~ 0 + hearing
+
 # ╔═╡ 0459d87b-8adc-4ae2-9254-02338ab58a8d
 data, evts = testdata.simulate_data(rng, 100;sfreq=100);
 
@@ -45,16 +48,33 @@ data, evts = testdata.simulate_data(rng, 100;sfreq=100);
 evts
 
 # ╔═╡ 05f94f29-248a-4050-977d-52c00d4da446
-lossepochdata = []
+begin
+	lossepochdata = []
+	lossepochrsquareddata = []
+	loss_test_rsquared = []
+	hidden_channels = [5,10,15,20,50]
+	y_pred = zeros(Float64, 5, 44, 227, 10)
+end
 
-# ╔═╡ a532f8c9-8780-4c23-a3ca-f0c17924286e
-lossepochrsquareddata = []
+# ╔═╡ 65bf1c9f-4a73-4f04-8334-3baac4943634
+begin
+	lossepochdata_hearing = []
+	lossepochrsquareddata_hearing = []
+	loss_test_rsquared_hearing = []
+	y_pred_hearing = zeros(Float64, 5, 44, 227, 10)
+end
 
-# ╔═╡ 9d5c4910-31ad-4351-9538-3ce937b3f6d6
-hidden_channels = [5,10,15,20,50]
-
-# ╔═╡ e7523396-b514-4af9-9ea7-d2189b2fb2ed
-y_pred = zeros(Float64, 5, 44, 227, 10)
+# ╔═╡ 2e46cc71-889a-4bcd-9fee-9ed102298251
+begin
+	fig_rsquared = Figure()
+	axis_rsquared = Axis(fig_rsquared[1, 1], xticks = (1:5, ["5", "10", "15", "20", "50"]), title = "hidden_channel vs rsquared_error", xlabel = "hidden channels", ylabel = "rsquared_error",)
+	lines!(axis_rsquared , 1:length(loss_test_rsquared), loss_test_rsquared, color = :blue, label = "hearing + sight")
+	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing, color = :red, label = "hearing")
+	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing - loss_test_rsquared, color = :brown, label = "difference")
+	legend = axislegend(axis_rsquared)
+	fig_rsquared[1, 2] = legend
+	fig_rsquared
+end
 
 # ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
 use_gpu = false
@@ -63,10 +83,20 @@ use_gpu = false
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
 	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=50,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
-	#l,y_pred = DeepRecurrentEncoder.test(dre,(Float32.(data)|> x->use_gpu ? CuArray(x) : x),ps,st;subset_index=1:10)
-	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10)
+	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10,loss_function = r_squared)
 	push!(lossepochdata, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
+	push!(loss_test_rsquared,l)
+end
+
+# ╔═╡ 7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
+for k in 1:5
+	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f_hearing,evts;n_epochs=50,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+	l,y_pred_hearing[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f_hearing,evts,ps,st;subset_index=1:10,loss_function = r_squared)
+	push!(lossepochdata_hearing, loss_epoch_data)
+	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
+	push!(loss_test_rsquared_hearing,l)
 end
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
@@ -148,13 +178,14 @@ end
 # ╠═74c27e79-a13b-4538-97ff-4dc0670e8237
 # ╠═35932abf-10b2-4e85-9090-98dc09499d66
 # ╠═549d0f75-be94-4460-9085-022f35613b29
+# ╠═9ce43061-34bb-4905-b7e2-8fc5f96222cb
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
 # ╠═05f94f29-248a-4050-977d-52c00d4da446
-# ╠═a532f8c9-8780-4c23-a3ca-f0c17924286e
-# ╠═9d5c4910-31ad-4351-9538-3ce937b3f6d6
-# ╠═e7523396-b514-4af9-9ea7-d2189b2fb2ed
+# ╠═65bf1c9f-4a73-4f04-8334-3baac4943634
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
+# ╠═7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
+# ╠═2e46cc71-889a-4bcd-9fee-9ed102298251
 # ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 # ╠═52ba8902-e2ed-4eea-9aa9-66be028a208c

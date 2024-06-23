@@ -39,25 +39,25 @@ end
 
 
 
-function test(dre, data, ps, st; kwargs...)
+function test(dre, data, ps, st; loss_function, kwargs...)
     @error "not yet implemented"
-    test(dre, data, similar(data, 0, 0), ps, st; kwargs...)
+    test(dre, data, similar(data, 0, 0), ps, st; loss_function, kwargs...)
 end
 
-function test(dre, data::AbstractArray{T,3}, f, evts, ps, st; kwargs...) where {T}
+function test(dre, data::AbstractArray{T,3}, f, evts, ps, st;loss_function,kwargs...) where {T}
     designmatrix = T.(generate_designmatrix(f, evts))
-    test(dre, data, designmatrix, ps, st; kwargs...)
+    test(dre, data, designmatrix, ps, st; loss_function,kwargs...)
 end
-function test(dre, data::AbstractArray, designmatrix::AbstractArray, ps, st; subset_index=1:size(data, 3), kwargs...)
+function test(dre, data::AbstractArray, designmatrix::AbstractArray, ps, st; loss_function,subset_index=1:size(data, 3), kwargs...)
     input_data, output_data = DeepRecurrentEncoder.prepare_data(data[:, :, subset_index], designmatrix[subset_index, :])
-    l, y_pred = test(input_data, output_data, dre, ps, st; kwargs...)
+    l, y_pred = test(input_data, output_data, dre, ps, st; loss_function,kwargs...)
     return l, y_pred
 
 end
 
 # returns average loss
 
-function test(eeg_in::AbstractArray{T,3}, eeg_out, dre, ps, st; batch_size=32, kwargs...) where {T}
+function test(eeg_in::AbstractArray{T,3}, eeg_out, dre, ps, st; batch_size=32, loss_function = mse, kwargs...) where {T}
     @debug size(eeg_in), size(eeg_out)
     loss = 0
     y_pred = Array{T}(undef, size(eeg_out)...)
@@ -69,7 +69,7 @@ function test(eeg_in::AbstractArray{T,3}, eeg_out, dre, ps, st; batch_size=32, k
         eeg_out_batch = eeg_out[:, :, start_index:end_index]
         @debug typeof(eeg_in_batch), typeof(eeg_out_batch), typeof(y_pred)
 
-        l, y_pred_tmp, st = compute_loss(eeg_in_batch, eeg_out_batch, dre, ps, st)
+        l, y_pred_tmp, st = compute_loss(eeg_in_batch, eeg_out_batch, dre, ps, st, loss_function)
         y_pred[:, :, start_index:end_index] .= Array(y_pred_tmp)
         loss += l
     end
