@@ -5,7 +5,9 @@ using CairoMakie
 using Statistics
 using LuxCUDA
 using Revise
+using testdata
 includet("../testdata.jl")
+# Create an object of the MersenneTwister, use this object to create random number between 0 and 1
 rng = MersenneTwister(1)
 data, evts = simulate_data(rng, 1000);
 

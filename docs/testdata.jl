@@ -4,10 +4,14 @@ using Random
 using CSV
 # returns tuple (matrix of shape 7*basisLength*4000, df with 4000 rows and 2 columns stating the values of the observation)) 
 function simulate_data(rng, epochs; sfreq=100)
+    # SingleSubjectDesign is used to create a sample data set for experimantal purpose with several cominations of the variable values
+    # sight and hearing 
     design = SingleSubjectDesign(;
         conditions=Dict(:sight => ["red", "blue"],
             :hearing => ["silent", "loud"])) |> d -> RepeatDesign(d, epochs)
 
+    #Event-related potentials (ERPs) are very small voltages generated in the brain structures in response to specific events or stimuli
+    #Here we are interested in 3 ERP points positive peak after 100ms which is the initial , Hanning window
     # next define a ground-truth signal + relation to events/design with Wilkinson Formulas
     p1 = LinearModelComponent(;
         basis=p100(sfreq=sfreq),
@@ -15,18 +19,21 @@ function simulate_data(rng, epochs; sfreq=100)
         β=[5]
     )
 
+    # Subjects react to the face stimulus which is found to be at negative peak after 170ms 
     n1 = LinearModelComponent(;
         basis=n170(sfreq=sfreq),
         formula=@formula(0 ~ 1 + sight),
         β=[5, -3]
     )
 
+    #Subject detects the target at positive deflection after 300ms
     p3 = LinearModelComponent(;
         basis=p300(sfreq=sfreq),
         formula=@formula(0 ~ 1 + sight),
         β=[-5, 1]
     )
     hart = headmodel(type="hartmut")
+    #6000 part around the brain we have selected 3 parts here
     #mc = UnfoldSim.MultichannelComponent(c, hart => "Left Postcentral Gyrus")
     mc = UnfoldSim.MultichannelComponent(p1, hart => hart.cortical["label"][50])
     mc2 = UnfoldSim.MultichannelComponent(n1, hart => hart.cortical["label"][100])
