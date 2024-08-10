@@ -42,7 +42,7 @@ f = @formula 0 ~ 0 + sight+hearing
 f_hearing = @formula 0 ~ 0 + hearing
 
 # ╔═╡ 0459d87b-8adc-4ae2-9254-02338ab58a8d
-data, evts = testdata.simulate_data(rng, 100;sfreq=100);
+data, evts = testdata.simulate_data(rng, 100;sfreq=100; sight_effect = 1);
 
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
@@ -55,6 +55,9 @@ begin
 	hidden_channels = [5,10,15,20,50]
 	y_pred = zeros(Float64, 5, 44, 227, 10)
 end
+
+# ╔═╡ 915dec40-0685-40b0-9fc0-e99cbb4cf07f
+size(data)
 
 # ╔═╡ 65bf1c9f-4a73-4f04-8334-3baac4943634
 begin
@@ -82,8 +85,8 @@ use_gpu = false
 # ╔═╡ a9b24005-ee13-49d5-a208-dace35b68235
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=50,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
-	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10,loss_function = r_squared)
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10,loss_function = mse)
 	push!(lossepochdata, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
 	push!(loss_test_rsquared,l)
@@ -92,7 +95,7 @@ end
 # ╔═╡ 7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f_hearing,evts;n_epochs=50,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f_hearing,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
 	l,y_pred_hearing[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f_hearing,evts,ps,st;subset_index=1:10,loss_function = r_squared)
 	push!(lossepochdata_hearing, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
@@ -100,10 +103,10 @@ for k in 1:5
 end
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
-series(Matrix(y_pred[5,:, :, 10])', solid_color=:black)
+series(Matrix(y_pred[5,:, :, 7])', solid_color=:black)
 
 # ╔═╡ 52ba8902-e2ed-4eea-9aa9-66be028a208c
-size(data)
+size(y_pred)
 
 # ╔═╡ d869a21d-1ab2-49c2-878b-eb829e8ccb9e
 series(data[:,:,15]; solid_color=:black)
@@ -182,6 +185,7 @@ end
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
 # ╠═05f94f29-248a-4050-977d-52c00d4da446
+# ╠═915dec40-0685-40b0-9fc0-e99cbb4cf07f
 # ╠═65bf1c9f-4a73-4f04-8334-3baac4943634
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
 # ╠═7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
