@@ -1,7 +1,6 @@
 using DeepRecurrentEncoder
 using Documenter
 using Literate, Glob
-import Documenter: makedocs
 DocMeta.setdocmeta!(DeepRecurrentEncoder, :DocTestSetup, :(using DeepRecurrentEncoder); recursive=true)
 
 
@@ -16,29 +15,32 @@ for subfolder ∈ ["explanations", "howto", "tutorials", "reference"]
 end
 
 
+
+# makedocs(;
+#     modules=[DeepRecurrentEncoder],
+#     authors="Benedikt V. Ehinger",
+#     sitename="DeepRecurrentEncoder.jl",
+#     format=Documenter.HTML(;
+#         canonical="https://s-ccs.github.io/DeepRecurrentEncoder.jl",
+#         edit_link="main",
+#         assets=String[],
+#     ),
+#     pages=[
+#         "Home" => "index.md",
+#         "Getting Started" => "generated/tutorials/gettingstarted.md",
+#         "Team_report" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md"
+#     ],
+# )
+
 makedocs(
-    sitename = "DeepRecurrentEncoder,jl",
-    authors="Benedikt V. Ehinger",
-    modules = [DeepRecurrentEncoder],
-    repo = "https://github.com/s-ccs/DeepRecurrentEncoder.jl", # 仓库的URL
-    format = Documenter.HTML(;
-              canonical="https://s-ccs.github.io/DeepRecurrentEncoder.jl",
-              edit_link="main",
-              assets=String[],
-        ), 
-    clean = true,
-),
-
-# makedocs(
-#      modules=[DeepRecurrentEncoder],
-#      authors="Benedikt V. Ehinger",
-#      sitename="DeepRecurrentEncoder.jl",
-#      format=Documenter.HTML(;
-#          canonical="https://s-ccs.github.io/DeepRecurrentEncoder.jl",
-#          edit_link="main",
-#          assets=String[],
-#     ), 
-
+     modules=[DeepRecurrentEncoder],
+     authors="Benedikt V. Ehinger",
+     sitename="DeepRecurrentEncoder.jl",
+     format=Documenter.HTML(;
+         canonical="https://s-ccs.github.io/DeepRecurrentEncoder.jl",
+         edit_link="main",
+         assets=String[],
+    ),
     pages = Any[
         "Home" => "index.md",
         "Tutorials" => [
@@ -46,16 +48,11 @@ makedocs(
             "Getting Started" => "generated/tutorials/gettingstarted.md"
         ]
     ]
+)
 
-# deploydocs(;
-#     repo="github.com/s-ccs/DeepRecurrentEncoder.jl",
-#     devbranch="main",
-#     push_preview = true,
-# )
 
-deploydocs(
-    repo = "github.com/s-ccs/DeepRecurrentEncoder.jl.git",
-    branch = "gh-pages",
-    devbranch = "main",
-    target = "build"
+deploydocs(;
+    repo="github.com/s-ccs/DeepRecurrentEncoder.jl",
+    devbranch="main",
+    push_preview = true,
 )
