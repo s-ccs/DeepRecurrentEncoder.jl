@@ -153,14 +153,14 @@
 # # 3. Graphs and Results Explanation
 # Output of Predicted model
 #
-# ![figure1](image/figure1.png)
+# ![](image/figure1.png)
 #
 #
 #
 
 # Output of Actual model
 #
-# ![figure2](image/figure2.png)
+# ![](image/figure2.png)
 #
 #
 #
@@ -169,7 +169,7 @@
 # effect of 10. As we can clearly observe, the blue shape is fuller and resembles a butterfly 
 # more due to the larger sight effect.
 #
-# ![figure3](image/figure3.png)
+# ![](image/figure3.png)
 #
 #
 #
@@ -177,7 +177,7 @@
 # The hearing + sight curve outperforms the hearing-only curve in terms of MSE loss, 
 # as the hearing + sight curve is closer to 0.
 #
-# ![figure4](image/figure4.png)
+# ![](image/figure4.png)
 #
 #
 #
@@ -185,7 +185,7 @@
 # As we can see, the hearing + sight*0 curve is similar to the hearing-only curve. 
 # The small differences are due to the randomly generated dataset.
 #
-# ![figure5](image/figure5.png)
+# ![](image/figure5.png)
 #
 #
 #
@@ -195,20 +195,20 @@
 # Test curve
 # R-square error curves for different hidden channels
 #
-# ![figure6](image/figure6.png)
+# ![](image/figure6.png)
 #
 #
 #
 # Predict hearing with the effect value of 10
 #
-# ![figure7](image/figure7.png)
+# ![](image/figure7.png)
 #
 #
 #
 # Training curve
 # MSE loss improves with more epochs or more hidden layers, as it gets closer to 0.
 #
-# ![figure8](image/figure8.png)
+# ![](image/figure8.png)
 #
 #
 #
@@ -216,6 +216,6 @@
 # R-squared loss improves with more hidden channels or more epochs. The R-squared value 
 # hasn't reached 1 due to the presence of pink noise.
 #
-# ![figure9](image/figure9.png)
+# ![](image/figure9.png)
 #
 #
