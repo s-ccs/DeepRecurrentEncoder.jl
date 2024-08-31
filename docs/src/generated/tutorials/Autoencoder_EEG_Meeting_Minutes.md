@@ -8,6 +8,69 @@ EditURL = "../../../literate/tutorials/Autoencoder_EEG_Meeting_Minutes.jl"
 
 #  1. Definition
 
+# What is Autoencoder?
+
+An autoencoder is a type of artificial neural network used to learn efficient representations of data,
+typically for the purpose of dimensionality reduction or feature learning. It consists of two main parts:
+
+1. **Encoder**: This part compresses the input data into a lower-dimensional representation,
+     capturing the essential features while discarding noise and redundancy.
+     The encoder typically reduces the input dimensions to a much smaller size.
+2. **Decoder**: This part reconstructs the original input from the compressed representation.
+     The goal of the decoder is to produce an output as close as possible to the original input data.
+
+Autoencoders are trained using unsupervised learning, where the network learns to minimize the difference
+between the input and the output (reconstruction error). They are widely used in applications such as data compression,
+denoising, anomaly detection, and feature extraction.
+
+# A List of Examples
+
+### 1. Medical Imaging
+
+- **Scenario**: A doctor needs to analyze a large set of medical
+  images, such as MRIs, to detect any abnormalities.
+- **Application**: Autoencoders can help enhance the image quality
+  or highlight areas of concern, making it easier for doctors
+  to identify potential health issues, such as tumors or fractures.
+
+### 2. Face Recognition on Social Media
+
+- **Scenario**: Social media platforms automatically tag people in photos.
+- **Application**: Autoencoders can compress and extract essential
+  features from images to recognize faces, making it easier
+  to tag friends in photos without manual input.
+
+### 3. Photo and Video Compression
+
+- **Scenario**: When you want to save space on your smartphone or computer
+  by compressing photos or videos.
+- **Application**: An autoencoder can reduce the file size of images or
+  videos while preserving important details, allowing you to store
+  more files without significantly losing quality.
+
+### 4. Noise Reduction in Audio
+
+- **Scenario**: You have a recording from a crowded place, like a lecture
+  or meeting, with a lot of background noise.
+- **Application**: A denoising autoencoder can clean up the audio by
+  filtering out the background noise, making the speech clearer
+  and easier to understand.
+
+### 5. Detecting Fraudulent Transactions
+
+- **Scenario**: Banks want to monitor transactions for potential fraud,
+  such as unusual spending patterns on a credit card.
+- **Application**: An autoencoder trained on normal transaction data can
+  identify transactions that significantly deviate from typical
+  behavior, flagging them as potentially fraudulent.
+
+## Key Concept
+
+Autoencoders are a versatile tool in machine learning for tasks
+such as dimensionality reduction, anomaly detection, and data compression.
+They work by learning to encode the input data into a lower-dimensional
+representation and then decode it back to its original form.
+
 1.1 Learning Rate
 
 - Too high a learning rate might cause the model to oscillate or even diverge during
@@ -146,45 +209,45 @@ push!(loss_test_rsquared_hearing_0, l)
 # 3. Graphs and Results Explanation
 Output of Predicted model
 
-![figure1](image/figure1.png)
+![](image/figure1.png)
 
 Output of Actual model
 
-![figure2](image/figure2.png)
+![](image/figure2.png)
 
 The red shape corresponds to a sight effect of 0, while the blue shape corresponds to a sight
 effect of 10. As we can clearly observe, the blue shape is fuller and resembles a butterfly
 more due to the larger sight effect.
 
-![figure3](image/figure3.png)
+![](image/figure3.png)
 
 The hearing + sight curve outperforms the hearing-only curve in terms of MSE loss,
 as the hearing + sight curve is closer to 0.
 
-![figure4](image/figure4.png)
+![](image/figure4.png)
 
 As we can see, the hearing + sight*0 curve is similar to the hearing-only curve.
 The small differences are due to the randomly generated dataset.
 
-![figure5](image/figure5.png)
+![](image/figure5.png)
 
 Test curve
 R-square error curves for different hidden channels
 
-![figure6](image/figure6.png)
+![](image/figure6.png)
 
 
 
 Predict hearing with the effect value of 10
 
-![figure7](image/figure7.png)
+![](image/figure7.png)
 
 
 
 Training curve
 MSE loss improves with more epochs or more hidden layers, as it gets closer to 0.
 
-![figure8](image/figure8.png)
+![](image/figure8.png)
 
 
 
@@ -192,7 +255,7 @@ Training curve
 R-squared loss improves with more hidden channels or more epochs. The R-squared value
 hasn't reached 1 due to the presence of pink noise.
 
-![figure9](image/figure9.png)
+![](image/figure9.png)
 
 ---
 
