@@ -42,6 +42,9 @@ data, evts = testdata.simulate_data(rng, 100;sfreq=100, sight_effect = 1);
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
 
+# ╔═╡ fed6912a-204d-4fd3-89d6-e76836bd6ed6
+
+
 # ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
 use_gpu = false
 
@@ -192,6 +195,7 @@ end
 # ╠═9ce43061-34bb-4905-b7e2-8fc5f96222cb
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
+# ╠═fed6912a-204d-4fd3-89d6-e76836bd6ed6
 # ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═d5404ef6-c0c9-45c1-80cd-3a79996889cf
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
