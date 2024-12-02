@@ -4,7 +4,7 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
     @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
     # conv layer expects input of shape (time, channel, epoch)
     opt_state = create_optimiser(ps, lr)
-    p = Progress(n_epochs)
+    p = Progress(n_epochs) # TODO:  replace ProgressMeter.jl with ProgressLogging.jl
 
 
     loss_epoch_array = Array{Float64}(undef, n_epochs)
@@ -39,18 +39,18 @@ end
 
 
 
-function test(dre, data, ps, st; loss_function, kwargs...)
+function test(dre, data, ps, st; kwargs...)
     @error "not yet implemented"
-    test(dre, data, similar(data, 0, 0), ps, st; loss_function, kwargs...)
+    test(dre, data, similar(data, 0, 0), ps, st; kwargs...)
 end
 
-function test(dre, data::AbstractArray{T,3}, f, evts, ps, st; loss_function, kwargs...) where {T}
+function test(dre, data::AbstractArray{T,3}, f, evts, ps, st; kwargs...) where {T}
     designmatrix = T.(generate_designmatrix(f, evts))
-    test(dre, data, designmatrix, ps, st; loss_function, kwargs...)
+    test(dre, data, designmatrix, ps, st; kwargs...)
 end
-function test(dre, data::AbstractArray, designmatrix::AbstractArray, ps, st; loss_function, subset_index=1:size(data, 3), kwargs...)
+function test(dre, data::AbstractArray, designmatrix::AbstractArray, ps, st; subset_index=1:size(data, 3), kwargs...)
     input_data, output_data = DeepRecurrentEncoder.prepare_data(data[:, :, subset_index], designmatrix[subset_index, :])
-    l, y_pred = test(input_data, output_data, dre, ps, st; loss_function, kwargs...)
+    l, y_pred = test(input_data, output_data, dre, ps, st; kwargs...)
     return l, y_pred
 
 end

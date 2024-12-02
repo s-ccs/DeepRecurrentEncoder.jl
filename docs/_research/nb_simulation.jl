@@ -24,14 +24,6 @@ end
 # ╔═╡ 74c27e79-a13b-4538-97ff-4dc0670e8237
 @revise using DeepRecurrentEncoder
 
-# ╔═╡ 16e1e345-343c-4bc3-b6cc-8652285fe063
-# ╠═╡ disabled = true
-#=╠═╡
-begin
-	using Plots
-end
-  ╠═╡ =#
-
 # ╔═╡ 9e4a1e93-9eba-47f5-ba42-785b70e19990
 testdata = @ingredients("../testdata.jl")
 
@@ -50,21 +42,6 @@ data, evts = testdata.simulate_data(rng, 100;sfreq=100, sight_effect = 1);
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
 
-# ╔═╡ 2e46cc71-889a-4bcd-9fee-9ed102298251
-# ╠═╡ disabled = true
-#=╠═╡
-begin
-	fig_rsquared = Figure()
-	axis_rsquared = Axis(fig_rsquared[1, 1], xticks = (1:5, ["5", "10", "15", "20", "50"]), title = "hidden_channel vs rsquared_error", xlabel = "hidden channels", ylabel = "rsquared_error",)
-	lines!(axis_rsquared , 1:length(loss_test_rsquared), loss_test_rsquared, color = :blue, label = "hearing + sight")
-	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing, color = :red, label = "hearing")
-	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing - loss_test_rsquared, color = :brown, label = "difference")
-	legend = axislegend(axis_rsquared)
-	fig_rsquared[1, 2] = legend
-	fig_rsquared
-end
-  ╠═╡ =#
-
 # ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
 use_gpu = false
 
@@ -72,11 +49,11 @@ use_gpu = false
 begin
 	data_input = Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x
 	
-dre,ps, st, loss_train = fit(DRE, data_input,f,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = 10)
+dre,ps, st, loss_train = fit(DRE, data_input,f,evts;n_epochs=10,lr=0.1,batch_size=256, hidden_chs = 10)
 
 
 	
-loss_pred,data_pred = DeepRecurrentEncoder.test(dre,data_input,f,evts,ps,st;subset_index=1:10)
+loss_pred,data_pred = DeepRecurrentEncoder.test(dre,data_input,f,evts,ps,st;subset_index=1:10,loss_function=mse)
 
 
 end
@@ -107,6 +84,21 @@ for k in 1:5
 end
   ╠═╡ =#
 
+# ╔═╡ 2e46cc71-889a-4bcd-9fee-9ed102298251
+# ╠═╡ disabled = true
+#=╠═╡
+begin
+	fig_rsquared = Figure()
+	axis_rsquared = Axis(fig_rsquared[1, 1], xticks = (1:5, ["5", "10", "15", "20", "50"]), title = "hidden_channel vs rsquared_error", xlabel = "hidden channels", ylabel = "rsquared_error",)
+	lines!(axis_rsquared , 1:length(loss_test_rsquared), loss_test_rsquared, color = :blue, label = "hearing + sight")
+	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing, color = :red, label = "hearing")
+	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing - loss_test_rsquared, color = :brown, label = "difference")
+	legend = axislegend(axis_rsquared)
+	fig_rsquared[1, 2] = legend
+	fig_rsquared
+end
+  ╠═╡ =#
+
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 series(Matrix(y_pred[5,:, :, 7])', solid_color=:black)
 
@@ -127,6 +119,14 @@ size(y_pred)
 
 # ╔═╡ e7f78c12-f9b3-46ac-99c2-3be5896cf6cd
 series(data[:,:,6]; solid_color=:black)
+
+# ╔═╡ 16e1e345-343c-4bc3-b6cc-8652285fe063
+# ╠═╡ disabled = true
+#=╠═╡
+begin
+	using Plots
+end
+  ╠═╡ =#
 
 # ╔═╡ f98f5c6a-6c98-4f65-9646-7089d7df21c9
 # ╠═╡ disabled = true
@@ -192,11 +192,11 @@ end
 # ╠═9ce43061-34bb-4905-b7e2-8fc5f96222cb
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
+# ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═d5404ef6-c0c9-45c1-80cd-3a79996889cf
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
 # ╠═7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
 # ╠═2e46cc71-889a-4bcd-9fee-9ed102298251
-# ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 # ╠═52ba8902-e2ed-4eea-9aa9-66be028a208c
 # ╠═d869a21d-1ab2-49c2-878b-eb829e8ccb9e
