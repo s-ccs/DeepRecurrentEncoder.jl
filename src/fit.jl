@@ -22,9 +22,9 @@ function StatsModels.fit(rng, t::Type{DRE}, data::AbstractArray{T,3}, designmatr
     # permuting dimensions
 
 
-    ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit!(rng, dre, input_data, output_data; kwargs...)
+    ps, st, loss_epoch_data = fit!(rng, dre, input_data, output_data; kwargs...)
 
-    return dre, ps, st, loss_epoch_data, loss_epoch_rsquared_data
+    return dre, ps, st, loss_epoch_data
 
 
 end
@@ -51,11 +51,12 @@ end
 function StatsModels.fit!(rng, dre::DRE, data_input, data_output; n_epochs=1, batch_size=32, kwargs...)
 
     ps, st = Lux.setup(rng, dre)
+    # TODO: Factor this out, so it is agnostic of actual platform
     if isa(data_output, LuxCUDA.CuArray)
         ps = ps |> gpu_device()
         st = st |> gpu_device()
     end
 
-    ps, st, loss_epoch_data, loss_epoch_rsquared_data = train(dre, data_input, data_output, ps, st; n_epochs=n_epochs, batch_size=batch_size)
-    return ps, st, loss_epoch_data, loss_epoch_rsquared_data
+    ps, st, loss_epoch_data = train(dre, data_input, data_output, ps, st; n_epochs=n_epochs, batch_size=batch_size)
+    return ps, st, loss_epoch_data
 end

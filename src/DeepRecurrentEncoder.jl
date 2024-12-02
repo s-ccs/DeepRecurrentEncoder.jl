@@ -10,7 +10,6 @@ using LuxCUDA
 using ProgressMeter
 
 include("model.jl")
-include("dre_simple.jl")
 include("traintest.jl")
 include("utils.jl")
 include("fit.jl")

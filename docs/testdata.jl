@@ -3,7 +3,7 @@ using Random
 #using PyMNE
 using CSV
 # returns tuple (matrix of shape 7*basisLength*4000, df with 4000 rows and 2 columns stating the values of the observation)) 
-function simulate_data(rng, epochs, sight_effect = 1; sfreq=100 )
+function simulate_data(rng, epochs; sight_effect=1, sfreq=100)
     # SingleSubjectDesign is used to create a sample data set for experimantal purpose with several cominations of the variable values
     # sight and hearing 
     design = SingleSubjectDesign(;
@@ -23,14 +23,14 @@ function simulate_data(rng, epochs, sight_effect = 1; sfreq=100 )
     n1 = LinearModelComponent(;
         basis=n170(sfreq=sfreq),
         formula=@formula(0 ~ 1 + sight),
-        β=[5, -3*sight_effect]
+        β=[5, -3 * sight_effect]
     )
 
     #Subject detects the target at positive deflection after 300ms
     p3 = LinearModelComponent(;
         basis=p300(sfreq=sfreq),
         formula=@formula(0 ~ 1 + sight),
-        β=[-5, 1*sight_effect]
+        β=[-5, 1 * sight_effect]
     )
     hart = headmodel(type="hartmut")
     #6000 part around the brain we have selected 3 parts here

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.42
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
@@ -16,7 +16,7 @@ begin
     using PlutoLinks
     using Lux
     using LuxCUDA
-    using CairoMakie
+    #using CairoMakie
     using Statistics
 	using StatsModels
 end
@@ -25,9 +25,12 @@ end
 @revise using DeepRecurrentEncoder
 
 # ╔═╡ 16e1e345-343c-4bc3-b6cc-8652285fe063
+# ╠═╡ disabled = true
+#=╠═╡
 begin
 	using Plots
 end
+  ╠═╡ =#
 
 # ╔═╡ 9e4a1e93-9eba-47f5-ba42-785b70e19990
 testdata = @ingredients("../testdata.jl")
@@ -42,32 +45,14 @@ f = @formula 0 ~ 0 + sight+hearing
 f_hearing = @formula 0 ~ 0 + hearing
 
 # ╔═╡ 0459d87b-8adc-4ae2-9254-02338ab58a8d
-data, evts = testdata.simulate_data(rng, 100;sfreq=100; sight_effect = 1);
+data, evts = testdata.simulate_data(rng, 100;sfreq=100, sight_effect = 1);
 
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
 
-# ╔═╡ 05f94f29-248a-4050-977d-52c00d4da446
-begin
-	lossepochdata = []
-	lossepochrsquareddata = []
-	loss_test_rsquared = []
-	hidden_channels = [5,10,15,20,50]
-	y_pred = zeros(Float64, 5, 44, 227, 10)
-end
-
-# ╔═╡ 915dec40-0685-40b0-9fc0-e99cbb4cf07f
-size(data)
-
-# ╔═╡ 65bf1c9f-4a73-4f04-8334-3baac4943634
-begin
-	lossepochdata_hearing = []
-	lossepochrsquareddata_hearing = []
-	loss_test_rsquared_hearing = []
-	y_pred_hearing = zeros(Float64, 5, 44, 227, 10)
-end
-
 # ╔═╡ 2e46cc71-889a-4bcd-9fee-9ed102298251
+# ╠═╡ disabled = true
+#=╠═╡
 begin
 	fig_rsquared = Figure()
 	axis_rsquared = Axis(fig_rsquared[1, 1], xticks = (1:5, ["5", "10", "15", "20", "50"]), title = "hidden_channel vs rsquared_error", xlabel = "hidden channels", ylabel = "rsquared_error",)
@@ -78,11 +63,27 @@ begin
 	fig_rsquared[1, 2] = legend
 	fig_rsquared
 end
+  ╠═╡ =#
 
 # ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
 use_gpu = false
 
+# ╔═╡ d5404ef6-c0c9-45c1-80cd-3a79996889cf
+begin
+	data_input = Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x
+	
+dre,ps, st, loss_train = fit(DRE, data_input,f,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = 10)
+
+
+	
+loss_pred,data_pred = DeepRecurrentEncoder.test(dre,data_input,f,evts,ps,st;subset_index=1:10)
+
+
+end
+
 # ╔═╡ a9b24005-ee13-49d5-a208-dace35b68235
+# ╠═╡ disabled = true
+#=╠═╡
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
 	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
@@ -91,8 +92,11 @@ for k in 1:5
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
 	push!(loss_test_rsquared,l)
 end
+  ╠═╡ =#
 
 # ╔═╡ 7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
+# ╠═╡ disabled = true
+#=╠═╡
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
 	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f_hearing,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
@@ -101,6 +105,7 @@ for k in 1:5
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
 	push!(loss_test_rsquared_hearing,l)
 end
+  ╠═╡ =#
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 series(Matrix(y_pred[5,:, :, 7])', solid_color=:black)
@@ -124,6 +129,8 @@ size(y_pred)
 series(data[:,:,6]; solid_color=:black)
 
 # ╔═╡ f98f5c6a-6c98-4f65-9646-7089d7df21c9
+# ╠═╡ disabled = true
+#=╠═╡
 begin
 	Plots.plot!(lossepochdata[1],linecolor=:orange, label="Hidden Channel 5")
 	Plots.plot!(lossepochdata[2],linecolor=:brown, label="Hidden Channel 10")
@@ -131,6 +138,7 @@ begin
 	Plots.plot!(lossepochdata[4], linecolor=:black, label="Hidden Channel 20")
 	p1 = Plots.plot!(lossepochdata[5], linecolor=:blue,label="Hidden Channel 50", title="epoch vs loss_mse_epoch", xlabel="epoch", ylabel="loss_epoch")
 end
+  ╠═╡ =#
 
 # ╔═╡ 4c16266a-f24a-44b8-8773-c3789ef01cd0
 begin
@@ -184,9 +192,7 @@ end
 # ╠═9ce43061-34bb-4905-b7e2-8fc5f96222cb
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
-# ╠═05f94f29-248a-4050-977d-52c00d4da446
-# ╠═915dec40-0685-40b0-9fc0-e99cbb4cf07f
-# ╠═65bf1c9f-4a73-4f04-8334-3baac4943634
+# ╠═d5404ef6-c0c9-45c1-80cd-3a79996889cf
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
 # ╠═7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
 # ╠═2e46cc71-889a-4bcd-9fee-9ed102298251
