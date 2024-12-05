@@ -7,7 +7,7 @@ using StatsModels
 using DataFrames
 using Random
 using LuxCUDA
-using ProgressMeter
+using ProgressLogging
 
 include("model.jl")
 include("traintest.jl")

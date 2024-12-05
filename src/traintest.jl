@@ -4,14 +4,14 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
     @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
     # conv layer expects input of shape (time, channel, epoch)
     opt_state = create_optimiser(ps, lr)
-    p = Progress(n_epochs) # TODO:  replace ProgressMeter.jl with ProgressLogging.jl
+    #p = Progress(n_epochs) # TODO:  replace ProgressMeter.jl with ProgressLogging.jl
 
 
     loss_epoch_array = Array{Float64}(undef, n_epochs)
     for epoch in 1:n_epochs
         loss_epoch = 0
 
-        for j in range(1, size(eeg_in, 3), step=batch_size)
+        @progress name = "epoch $epoch/$n_epochs" threshold = 0.005 for j in range(1, size(eeg_in, 3), step=batch_size)
             start_index = j
             end_index = j + batch_size
             end_index = end_index > size(eeg_in, 3) ? size(eeg_in, 3) : end_index
@@ -27,9 +27,9 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
         end
         loss_epoch = loss_epoch / size(eeg_in, 3)
 
-        if show_progress
-            next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
-        end
+        #if show_progress
+        #    next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
+        #end
         loss_epoch_array[epoch] = loss_epoch
 
     end
