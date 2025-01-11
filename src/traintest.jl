@@ -1,17 +1,16 @@
 
-function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_size=32, show_progress=true)
+function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_size=32, loss_opt, show_progress=true)
 
     @info "Input data is a $(typeof(eeg_in)) and $(typeof(eeg_out)) with size $(size(eeg_in)),$(size(eeg_out))"
     # conv layer expects input of shape (time, channel, epoch)
     opt_state = create_optimiser(ps, lr)
-    #p = Progress(n_epochs) # TODO:  replace ProgressMeter.jl with ProgressLogging.jl
 
-
+    loss_epoch_opt_array = Array{Float64}(undef, n_epochs)
     loss_epoch_array = Array{Float64}(undef, n_epochs)
-    for epoch in 1:n_epochs
+    @progress name = "training progress" threshold = 0.005 for epoch in 1:n_epochs
         loss_epoch = 0
-
-        @progress name = "epoch $epoch/$n_epochs" threshold = 0.005 for j in range(1, size(eeg_in, 3), step=batch_size)
+        loss_epoch_opt = 0
+        for j in range(1, size(eeg_in, 3), step=batch_size)
             start_index = j
             end_index = j + batch_size
             end_index = end_index > size(eeg_in, 3) ? size(eeg_in, 3) : end_index
@@ -19,21 +18,20 @@ function train(dre::DRE, eeg_in, eeg_out, ps, st; n_epochs=1, lr=0.01, batch_siz
             eeg_in_batch = eeg_in[:, :, start_index:end_index]
             #            @debug size(eeg_in_batch), size(eeg_out_batch), ps, st
             (loss, y_pred, st), back = pullback(compute_loss, eeg_in_batch, eeg_out_batch, dre, ps, st)
-
+            loss_opt_values = loss_opt(y_pred, eeg_out_batch)
             loss_epoch += loss
-
+            loss_epoch_opt += loss_opt_values
             gs = back((one(loss), nothing, nothing))[4]
             opt_state, ps = Optimisers.update(opt_state, ps, gs)
         end
         loss_epoch = loss_epoch / size(eeg_in, 3)
+        loss_epoch_opt = loss_epoch_opt / size(eeg_in, 3)
 
-        #if show_progress
-        #    next!(p; showvalues=[(:epoch, epoch), (:loss_epoch, loss_epoch)])
-        #end
         loss_epoch_array[epoch] = loss_epoch
+        loss_epoch_opt_array[epoch] = loss_epoch_opt
 
     end
-    return ps, st, loss_epoch_array
+    return ps, st, loss_epoch_array, loss_epoch_opt_array
 end
 
 

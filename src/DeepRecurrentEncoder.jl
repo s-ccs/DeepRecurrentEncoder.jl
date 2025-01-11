@@ -8,6 +8,7 @@ using DataFrames
 using Random
 using LuxCUDA
 using ProgressLogging
+using GPUArrays
 
 include("model.jl")
 include("traintest.jl")

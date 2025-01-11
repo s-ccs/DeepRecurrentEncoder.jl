@@ -16,9 +16,10 @@ begin
     using PlutoLinks
     using Lux
     using LuxCUDA
-    #using CairoMakie
+    using CairoMakie
     using Statistics
 	using StatsModels
+    using Plots
 end
 
 # ╔═╡ 74c27e79-a13b-4538-97ff-4dc0670e8237
@@ -39,17 +40,34 @@ f_hearing = @formula 0 ~ 0 + hearing
 # ╔═╡ 0459d87b-8adc-4ae2-9254-02338ab58a8d
 data, evts = testdata.simulate_data(rng, 100;sfreq=100, sight_effect = 1);
 
+# ╔═╡ bb418952-aa97-4edb-ae71-ae8c0cd2844a
+begin
+    loss_epoch_data = []
+    loss_epoch_opt_data = []
+    loss_test_opt = []
+    hidden_channels = [5, 10, 15, 20, 50]
+    y_pred = zeros(Float64, 5, 44, 227, 10)
+end
+
+# ╔═╡ d0cc0ebd-5248-4d11-bb1c-17f2cc505953
+begin
+    loss_epoch_data_hearing = []
+    loss_epoch_opt_data_hearing = []
+    loss_test_opt_hearing = []
+    y_pred_hearing = zeros(Float64, 5, 44, 227, 10)
+end
+
 # ╔═╡ 374e654e-ec60-45f7-9d70-3a4d0eaa168a
 evts
 
-# ╔═╡ 79712113-2360-4fc9-802d-2e9af5800626
+# ╔═╡ 3059a2f4-7090-4537-a572-4e3ab561f8dc
 use_gpu = false
 
 # ╔═╡ d5404ef6-c0c9-45c1-80cd-3a79996889cf
 begin
 	data_input = Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x
-	
-dre,ps, st, loss_train = fit(DRE, data_input,f,evts;n_epochs=10,lr=0.1,batch_size=256, hidden_chs = 10)
+    loss = MSELoss()
+    dre, ps, st, loss_train = fit(DRE, data_input, f, evts; n_epochs=10, lr=0.1, batch_size=256, loss_opt=loss, hidden_chs=10)
 
 
 	
@@ -58,49 +76,38 @@ loss_pred,data_pred = DeepRecurrentEncoder.test(dre,data_input,f,evts,ps,st;subs
 
 end
 
-# ╔═╡ 12e2d3ed-dc13-4ba1-819b-d1ab25f3334d
-
-
 # ╔═╡ a9b24005-ee13-49d5-a208-dace35b68235
-# ╠═╡ disabled = true
-#=╠═╡
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+    @info "k=$k"
+    dre, ps, st, loss_epoch_data_recieved, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f, evts; n_epochs=10, lr=0.1, batch_size=256, hidden_chs=hidden_channels[k])# |> CuArray)
 	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10,loss_function = mse)
-	push!(lossepochdata, loss_epoch_data)
-	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
-	push!(loss_test_rsquared,l)
+    push!(loss_epoch_data, loss_epoch_data_recieved)
+    push!(loss_epoch_opt_data, loss_epoch_rsquared_data)
+    push!(loss_test_opt, l)
 end
-  ╠═╡ =#
 
 # ╔═╡ 7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
-# ╠═╡ disabled = true
-#=╠═╡
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f_hearing,evts;n_epochs=500,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+    dre, ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_hearing, evts; n_epochs=10, lr=0.1, batch_size=256, hidden_chs=hidden_channels[k])# |> CuArray)
 	l,y_pred_hearing[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f_hearing,evts,ps,st;subset_index=1:10,loss_function = r_squared)
-	push!(lossepochdata_hearing, loss_epoch_data)
-	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
-	push!(loss_test_rsquared_hearing,l)
+    push!(loss_epoch_data_hearing, loss_epoch_data)
+    push!(loss_epoch_opt_data, loss_epoch_rsquared_data)
+    push!(loss_test_opt_hearing, l)
 end
-  ╠═╡ =#
 
 # ╔═╡ 2e46cc71-889a-4bcd-9fee-9ed102298251
-# ╠═╡ disabled = true
-#=╠═╡
 begin
 	fig_rsquared = Figure()
 	axis_rsquared = Axis(fig_rsquared[1, 1], xticks = (1:5, ["5", "10", "15", "20", "50"]), title = "hidden_channel vs rsquared_error", xlabel = "hidden channels", ylabel = "rsquared_error",)
-	lines!(axis_rsquared , 1:length(loss_test_rsquared), loss_test_rsquared, color = :blue, label = "hearing + sight")
-	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing, color = :red, label = "hearing")
-	lines!(axis_rsquared , 1:length(loss_test_rsquared_hearing), loss_test_rsquared_hearing - loss_test_rsquared, color = :brown, label = "difference")
+    lines!(axis_rsquared, 1:length(loss_test_opt), loss_test_opt, color=:blue, label="hearing + sight")
+    lines!(axis_rsquared, 1:length(loss_test_opt_hearing), loss_test_opt_hearing, color=:red, label="hearing")
+    lines!(axis_rsquared, 1:length(loss_test_opt_hearing), loss_test_opt_hearing - loss_test_opt, color=:brown, label="difference")
 	legend = axislegend(axis_rsquared)
 	fig_rsquared[1, 2] = legend
 	fig_rsquared
 end
-  ╠═╡ =#
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 series(Matrix(y_pred[5,:, :, 7])', solid_color=:black)
@@ -123,25 +130,14 @@ size(y_pred)
 # ╔═╡ e7f78c12-f9b3-46ac-99c2-3be5896cf6cd
 series(data[:,:,6]; solid_color=:black)
 
-# ╔═╡ 16e1e345-343c-4bc3-b6cc-8652285fe063
-# ╠═╡ disabled = true
-#=╠═╡
-begin
-	using Plots
-end
-  ╠═╡ =#
-
 # ╔═╡ f98f5c6a-6c98-4f65-9646-7089d7df21c9
-# ╠═╡ disabled = true
-#=╠═╡
 begin
-	Plots.plot!(lossepochdata[1],linecolor=:orange, label="Hidden Channel 5")
-	Plots.plot!(lossepochdata[2],linecolor=:brown, label="Hidden Channel 10")
-	Plots.plot!(lossepochdata[3], linecolor=:red, label="Hidden Channel 15")
-	Plots.plot!(lossepochdata[4], linecolor=:black, label="Hidden Channel 20")
-	p1 = Plots.plot!(lossepochdata[5], linecolor=:blue,label="Hidden Channel 50", title="epoch vs loss_mse_epoch", xlabel="epoch", ylabel="loss_epoch")
+    Plots.plot!(loss_epoch_data[1], linecolor=:orange, label="Hidden Channel 5")
+    Plots.plot!(loss_epoch_data[2], linecolor=:brown, label="Hidden Channel 10")
+    Plots.plot!(loss_epoch_data[3], linecolor=:red, label="Hidden Channel 15")
+    Plots.plot!(loss_epoch_data[4], linecolor=:black, label="Hidden Channel 20")
+    p1 = Plots.plot!(loss_epoch_data[5], linecolor=:blue, label="Hidden Channel 50", title="epoch vs loss_mse_epoch", xlabel="epoch", ylabel="loss_epoch")
 end
-  ╠═╡ =#
 
 # ╔═╡ 4c16266a-f24a-44b8-8773-c3789ef01cd0
 begin
@@ -150,7 +146,7 @@ begin
 	line_color_lossmse = [:orange,:brown,:red, :black,:blue]
 	labels_lossmse = ["Hidden Channel 5", "Hidden Channel 10", "Hidden Channel 15", "Hidden Channel 20", "Hidden Channel 50"]
 	for k in 1:5
-		push!(flattened_data_lossmse,[x[1] for x in lossepochdata[k]])
+        push!(flattened_data_lossmse, [x[1] for x in loss_epoch_data[k]])
 	end
 	fig_lossmse = Figure()
 	ax_lossmse = Axis(fig_lossmse[1, 1], title = "Loss vs Epoch", xlabel = "Epoch", ylabel = "Loss")
@@ -170,7 +166,7 @@ begin
 	line_color = [:orange,:brown,:red, :black,:blue]
 	labels = ["Hidden Channel 5", "Hidden Channel 10", "Hidden Channel 15", "Hidden Channel 20", "Hidden Channel 50"]
 	for k in 1:5
-		push!(flattened_data,[x[1] for x in lossepochrsquareddata[k]])
+        push!(flattened_data, [x[1] for x in loss_epoch_opt_data[k]])
 	end
 	fig = Figure()
 	ax = Axis(fig[1, 1], title = "Loss vs Epoch", xlabel = "Epoch", ylabel = "Loss")
@@ -194,10 +190,11 @@ end
 # ╠═549d0f75-be94-4460-9085-022f35613b29
 # ╠═9ce43061-34bb-4905-b7e2-8fc5f96222cb
 # ╠═0459d87b-8adc-4ae2-9254-02338ab58a8d
+# ╠═bb418952-aa97-4edb-ae71-ae8c0cd2844a
+# ╠═d0cc0ebd-5248-4d11-bb1c-17f2cc505953
 # ╠═374e654e-ec60-45f7-9d70-3a4d0eaa168a
-# ╠═79712113-2360-4fc9-802d-2e9af5800626
+# ╠═3059a2f4-7090-4537-a572-4e3ab561f8dc
 # ╠═d5404ef6-c0c9-45c1-80cd-3a79996889cf
-# ╠═12e2d3ed-dc13-4ba1-819b-d1ab25f3334d
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
 # ╠═7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
 # ╠═2e46cc71-889a-4bcd-9fee-9ed102298251
@@ -208,7 +205,6 @@ end
 # ╠═3950b729-c5ba-4d12-a39a-2a0f05f5aaa4
 # ╠═e1c78107-8fa7-41e8-9045-7e8469ca2d35
 # ╠═e7f78c12-f9b3-46ac-99c2-3be5896cf6cd
-# ╠═16e1e345-343c-4bc3-b6cc-8652285fe063
 # ╠═f98f5c6a-6c98-4f65-9646-7089d7df21c9
 # ╠═4c16266a-f24a-44b8-8773-c3789ef01cd0
 # ╠═c9a11eac-226a-4d7e-8427-7b7b021138e6
