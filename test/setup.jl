@@ -1,4 +1,7 @@
 using Test
 using DeepRecurrentEncoder
-using Random
+using StableRNGs
 using Lux
+
+
+include("../docs/testdata.jl");

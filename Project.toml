@@ -16,14 +16,14 @@ Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
 DataFrames = "1"
-GPUArrays = "10.3.1"
+GPUArrays = "10,11"
 Lux = "1"
-LuxCUDA = "0.3.3"
+LuxCUDA = "0.3"
 Optimisers = "0.4"
-ProgressLogging = "0.1.4"
+ProgressLogging = "0.1"
 Random = "1"
 StatsModels = "0.7"
-Zygote = "0.6"
+Zygote = "0.6,0.7"
 julia = "1"
 
 [extras]

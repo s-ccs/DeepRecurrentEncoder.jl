@@ -1,8 +1,5 @@
 
-
-include("../docs/testdata.jl");
-
-rng = MersenneTwister(1)
+rng = StableRNG(1)
 data, evts = simulate_data(rng, 100; sfreq=100, sight_effect=1);
 use_gpu = false
 @testset "formula-interface" begin
