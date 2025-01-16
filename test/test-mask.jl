@@ -1,7 +1,4 @@
-using Test
-using DeepRecurrentEncoder
-using Random
-using Lux
+
 
 include("../docs/testdata.jl");
 
