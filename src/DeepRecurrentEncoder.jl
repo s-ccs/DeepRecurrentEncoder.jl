@@ -23,5 +23,6 @@ export train
 export test
 export add_mask
 export fit, fit!
+export train_test_split
 export @formula # reexport
 end

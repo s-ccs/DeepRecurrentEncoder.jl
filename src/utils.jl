@@ -73,5 +73,12 @@ function add_stimuli!(out, in, designmatrix)
         end
     end
     return out
+end
 
+function train_test_split(data, evts, at=0.7)
+    n = size(data)[3]
+    idx = shuffle(1:n)
+    train_idx = view(idx, 1:floor(Int, at * n))
+    test_idx = view(idx, (floor(Int, at * n)+1):n)
+    data[:, :, train_idx], evts[train_idx, :], data[:, :, test_idx], evts[test_idx, :]
 end

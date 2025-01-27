@@ -65,14 +65,16 @@ use_gpu = false
 
 # ╔═╡ d5404ef6-c0c9-45c1-80cd-3a79996889cf
 begin
-	data_input = Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x
-    loss = MSELoss()
-    dre, ps, st, loss_train = fit(DRE, data_input, f, evts; n_epochs=10, lr=0.1, batch_size=256, loss_opt=loss, hidden_chs=10)
 
+  x_train_data, train_evts, x_test_data, test_evts = train_test_split(data, evts)
 
-	
-loss_pred,data_pred = DeepRecurrentEncoder.test(dre,data_input,f,evts,ps,st;subset_index=1:10,loss_function=mse)
+  data_input = Float32.(x_train_data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x
+  loss = MSELoss()
+  dre, ps, st, loss_train, loss_opt = fit(DRE, data_input, f, train_evts; n_epochs=10, lr=0.1, batch_size=256, loss_opt=loss, hidden_chs=10)
 
+  data_test = Float32.(x_test_data[:, 1:end÷2*2, :])
+
+  loss_pred, data_pred = DeepRecurrentEncoder.test(dre, data_test, f, test_evts, ps, st; subset_index=1:10, loss_function=mse)
 
 end
 
