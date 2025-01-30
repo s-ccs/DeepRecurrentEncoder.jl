@@ -16,6 +16,7 @@ end
 
 """
 Constructs a DRE model with specified input, hidden, and output channels.
+Current implementation based on publication : arXiv:2103.02339
 
 # Arguments
 - `in_chs::Int`: Number of input channels.

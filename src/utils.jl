@@ -27,7 +27,7 @@ Compute the coefficient of determination (R²) for the given predictions.
 - `Float64`: The R² score.
 """
 function r_squared(y_pred, y_true)
-    y_mean = sum(y_true)/length(y_true)
+    y_mean = sum(y_true) / length(y_true)
     ss_tot = sum((y_true .- y_mean) .^ 2)
     ss_res = sum((y_true .- y_pred) .^ 2)
     return 1 - ss_res / ss_tot
@@ -57,7 +57,8 @@ end
 """
     add_mask(eeg, p)
 
-Add a mask to the EEG data.
+Add a mask to the EEG data. This is done to mask any missing data in EEG recordings and maintain data consistancy.
+EEG recordings are typically inconsistant in the channels dimention. This may be due to errors in measurement or equipment misfunction. Hence, we mask a percentage of the channels to reduce the interference of this data in the final model.
 
 # Arguments
 - `eeg::AbstractArray`: The input EEG data of shape `(channels, time, epochs)`.
@@ -99,7 +100,7 @@ end
 """
     generate_designmatrix(f, evts)
 
-Generate the design matrix for given formula and events.
+Generate the design matrix for given formula and events. This is to convert a dataset and a formula into a numerical design matrix, making it easier to fit statistical or machine learning models
 
 # Arguments
 - `f::FormulaTerm`: A formula describing the design.
@@ -117,7 +118,7 @@ end
 """
     add_stimuli(in, designmatrix)
 
-Add stimuli information to EEG data.
+Add stimuli information to EEG data. Used to combine EEG signals with stimuli data from the design matrix.
 
 # Arguments
 - `in::AbstractArray{T,3}`: EEG data of shape `(time, channels, epochs)`.
