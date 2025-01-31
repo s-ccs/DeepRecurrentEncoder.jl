@@ -57,8 +57,9 @@ end
 """
     add_mask(eeg, p)
 
-Add a mask to the EEG data. This is done to mask any missing data in EEG recordings and maintain data consistancy.
-EEG recordings are typically inconsistant in the channels dimention. This may be due to errors in measurement or equipment misfunction. Hence, we mask a percentage of the channels to reduce the interference of this data in the final model.
+Add a mask to the EEG data. This is done to help the model control when not to sustain a signal.
+This is to mainly separate the baseline EEG data from disturbances such as blinking and head movements. 
+Further information can be obtainer from : https://arxiv.org/pdf/2103.02339
 
 # Arguments
 - `eeg::AbstractArray`: The input EEG data of shape `(channels, time, epochs)`.
