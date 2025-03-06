@@ -32,7 +32,7 @@ function simulate_data(rng, epochs; sight_effect=1, sfreq=100)
         formula=@formula(0 ~ 1 + sight),
         β=[-5, 1 * sight_effect]
     )
-    hart = headmodel(type="hartmut")
+    hart = headmodel()
     #6000 part around the brain we have selected 3 parts here
     #mc = UnfoldSim.MultichannelComponent(c, hart => "Left Postcentral Gyrus")
     mc = UnfoldSim.MultichannelComponent(p1, hart => hart.cortical["label"][50])

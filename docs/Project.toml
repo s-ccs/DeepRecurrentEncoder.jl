@@ -1,6 +1,7 @@
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DeepRecurrentEncoder = "81cdbb96-0126-4941-b8f1-96022f2db8f3"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 GPUArrays = "0c68f7d7-f131-5f86-a1c3-88cf8149b2d7"
