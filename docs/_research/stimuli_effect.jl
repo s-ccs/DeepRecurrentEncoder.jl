@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.4
 
 using Markdown
 using InteractiveUtils
@@ -137,7 +137,7 @@ begin
 
     # Third subplot for "Hearing"
     ax3 = Axis(f[3, 1], xlabel="Time", ylabel="Amplitude", title="hearing")
-    lines!(ax3, y_pred_hearing[:, :, 5][:], label="Combined", color=:green)
+    lines!(ax3, y_pred_hearing[:, :, 5][:], label="hearing", color=:green)
     axislegend(ax3)
 
 	# Third subplot for "Combined"
@@ -147,6 +147,23 @@ begin
 
     # Display the figure
     f
+end
+
+# ╔═╡ 649545f2-6172-44cb-9eb8-8623ee293be0
+begin
+	f_ = Figure()
+
+	ax1_ = Axis(f_[1,1], xlabel="Epochs", ylabel="error", title="Error vs epochs")
+
+	lines!(ax1_, loss_epoch_data_sight[1], label="sight", color=:red)
+
+	lines!(ax1_, (loss_epoch_data_hearing[1]), label="hearing", color=:blue)
+
+	lines!(ax1_, (loss_epoch_data_combined[1]), label="combined", color=:black)
+
+	axislegend(ax1_)
+
+	f_
 end
 
 # ╔═╡ Cell order:
@@ -167,3 +184,4 @@ end
 # ╠═f2fbca49-8916-4b39-a3cf-a330c3919173
 # ╠═f8ab077f-c976-422c-b348-31163652a2f6
 # ╠═ed2a46a3-11c8-4eb0-a681-5029a41eef65
+# ╠═649545f2-6172-44cb-9eb8-8623ee293be0
