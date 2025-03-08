@@ -43,9 +43,18 @@ makedocs(
     ),
     pages = Any[
         "Home" => "index.md",
+        "Introduction"=>[
+            "Basics" => "generated/explanations/introduction.md",
+            "Installation" => "generated/explanations/installation.md",
+        ],
+        "How To"=>[
+            "Basic Usage" => "generated/howto/basicUsage.md",
+        ],
         "Tutorials" => [
-            "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
-            "Getting Started" => "generated/tutorials/gettingstarted.md"
+            "Effect of hidden channels" => "generated/tutorials/hiddenChannelsEffect.md",
+            "Effect of stimuli input" => "generated/tutorials/stimuliEffect.md",
+            # "Getting Started" => "generated/tutorials/gettingstarted.md",
+            # "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
         ]
     ]
 )
