@@ -2,12 +2,48 @@
 
 
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://s-ccs.github.io/DeepRecurrentEncoder.jl/dev/)
-[![Build Status](https://github.com/behinger/DeepRecurrentEncoder.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/behinger/DeepRecurrentEncoder.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build status](https://github.com/s-ccs/DeepRecurrentEncoder.jl/actions/workflows/documenter.yml/badge.svg?branch=main)](https://github.com/s-ccs/DeepRecurrentEncoder.jl/actions/workflows/documenter.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/behinger/DeepRecurrentEncoder.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/behinger/DeepRecurrentEncoder.jl)
+####
+###### Work in Progress
+## Getting started
 
-## Work in Progress
+### Julia installation
 
-a test-pluto-notebook is in the docs folder. it works rudimentary
+<details>
+<summary>Click to expand</summary>
+
+The recommended way to install julia is [juliaup](https://github.com/JuliaLang/juliaup).
+It allows you to, e.g., easily update Julia at a later point, but also test out alpha/beta versions etc.
+
+TL:DR; If you dont want to read the explicit instructions, just copy the following command
+
+#### Windows
+
+AppStore -> JuliaUp,  or `winget install julia -s msstore` in CMD
+
+#### Mac & Linux
+
+`curl -fsSL https://install.julialang.org | sh` in any shell
+</details>
+
+### Unfold.jl installation
+After installing Julia, Clone the repository and navigate into it and start a Julia REPL
+```julia
+using Pkg
+Pkg.add("Unfold")
+```
+## Usage
+
+Please check out [the documentation](https://s-ccs.github.io/DeepRecurrentEncoder.jl/dev/) for extensive tutorials, explanations and more!
+
+## Contributions
+
+Contributions are very welcome. These could be typos, bugreports, feature-requests, speed-optimization, new solvers, better code, better documentation.
+
+### How-to Contribute
+
+You are very welcome to raise issues and start pull requests!
 
 ## Contributors
 
