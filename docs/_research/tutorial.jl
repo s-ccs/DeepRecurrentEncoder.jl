@@ -51,7 +51,7 @@ begin
 
   data_input = Float32.(x_train_data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x
   loss = MSELoss()
-  dre, ps, st, loss_train, loss_opt = fit(DRE, data_input, f, train_evts; n_epochs=10, lr=0.1, batch_size=256, loss_opt=loss, hidden_chs=25)
+  dre, ps, st, loss_train, loss_opt = fit(DRE, data_input, f, train_evts; n_epochs=50, lr=0.1, batch_size=256, loss_opt=loss, hidden_chs=50)
 
   data_test = Float32.(x_test_data[:, 1:end÷2*2, :])
 
@@ -61,10 +61,10 @@ end
 
 
 # ╔═╡ e7f78c12-f9b3-46ac-99c2-3be5896cf6cd
-series((data_test[:, :, 10]); solid_color=:black)
+series(mean(data_test, dims=3)[:, :, 1]; solid_color=:black)
 
 # ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
-series(data_pred[:, :, 10]', solid_color=:black)
+series(mean(data_pred, dims=3)[:, :, 1]'; solid_color=:black)
 
 # ╔═╡ fb6d2eef-2dd4-4f62-b809-4f7102017900
 begin

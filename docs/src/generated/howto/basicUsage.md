@@ -90,13 +90,13 @@ loss_pred, data_pred = DeepRecurrentEncoder.test(dre, data_test, f, test_evts, p
 ```julia
 series((data_test[:, :, 10]); solid_color=:black)
 ```
-Plots a sample input data series.
+![](../_resources/images/Figure1.png)
 
 #### Prediction Visualization
 ```julia
 series(data_pred[:, :, 10]', solid_color=:black)
 ```
-Plots the model's predicted series.
+![](../_resources/images/Figure2.png)
 
 #### Training Loss Visualization
 ```julia
@@ -108,6 +108,8 @@ f_
 ```
 - Creates a figure to plot training loss over epochs.
 - Uses `CairoMakie` to visualize the error reduction.
+
+![](../_resources/images/Figure3.png)
 
 ## Summary
 This notebook:

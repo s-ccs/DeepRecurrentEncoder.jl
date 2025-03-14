@@ -55,6 +55,9 @@ makedocs(
             "Effect of stimuli input" => "generated/tutorials/stimuliEffect.md",
             # "Getting Started" => "generated/tutorials/gettingstarted.md",
             # "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
+        ],
+        "References"=>[
+            "Functions summary" => "generated/references/methodReference.md"
         ]
     ]
 )

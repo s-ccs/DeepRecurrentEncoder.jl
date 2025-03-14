@@ -52,24 +52,18 @@ begin
 	lossepochrsquareddata = []
 	loss_test_rsquared = []
 	hidden_channels = [10,25,50,75,100]
-	y_pred = zeros(5, 44, 227, 10)
+	y_pred = zeros(5, 44, 227, 100)
 end
 
 # ╔═╡ a9b24005-ee13-49d5-a208-dace35b68235
 for k in 1:5
 	#dre,ps, st = fit(DRE, Float32.(data))# |> CuArray)
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=100,lr=0.05,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
-	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:10,loss_function = mse)
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=25,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:100,loss_function = mse)
 	push!(lossepochdata, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
 	push!(loss_test_rsquared,l)
 end
-
-# ╔═╡ d869a21d-1ab2-49c2-878b-eb829e8ccb9e
-series(data[:, :, 5]; solid_color=:black)
-
-# ╔═╡ a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
-series(Matrix(y_pred[5, :, :, 5])', solid_color=:black)
 
 # ╔═╡ 20ad368e-4a3b-43f0-9836-f58adaaa71df
 series(mean(data, dims=3)[:, :, 1]; solid_color=:black)
@@ -122,8 +116,6 @@ end
 # ╠═79712113-2360-4fc9-802d-2e9af5800626
 # ╠═28f29ec2-12dd-4c22-871a-3931dca13827
 # ╠═a9b24005-ee13-49d5-a208-dace35b68235
-# ╠═d869a21d-1ab2-49c2-878b-eb829e8ccb9e
-# ╠═a0e1c0b6-60a0-4d52-89c2-9f24d88de1b8
 # ╠═20ad368e-4a3b-43f0-9836-f58adaaa71df
 # ╠═3950b729-c5ba-4d12-a39a-2a0f05f5aaa4
 # ╠═51ae940c-6869-42c6-bf0e-d87e4cd530ae

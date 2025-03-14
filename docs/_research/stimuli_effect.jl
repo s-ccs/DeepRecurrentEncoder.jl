@@ -82,7 +82,7 @@ use_gpu = false
 # ╔═╡ a9b24005-ee13-49d5-a208-dace35b68235
 # Training with stimulus - Sight
 begin
-    dre_sight, ps_sight, st_sight, loss_epoch_data_recieved_sight, loss_epoch_rsquared_data_sight = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_sight, evts; n_epochs=20, lr=0.01, batch_size=256, hidden_chs=100) # |> CuArray)
+    dre_sight, ps_sight, st_sight, loss_epoch_data_recieved_sight, loss_epoch_rsquared_data_sight = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_sight, evts; n_epochs=100, lr=0.05, batch_size=256, hidden_chs=75) # |> CuArray)
     l_sight, y_pred_sight[:, :, :] = DeepRecurrentEncoder.test(dre_sight, (Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x), f_sight, evts, ps_sight, st_sight; subset_index=1:10, loss_function=mse)
     push!(loss_epoch_data_sight, loss_epoch_data_recieved_sight)
     push!(loss_epoch_opt_data_sight, loss_epoch_rsquared_data_sight)
@@ -92,7 +92,7 @@ end
 # ╔═╡ 7ea4fc53-ed1e-4442-8ea9-6e294cccecf9
 # Training with stimulus - Hearing
 begin
-    dre_hearing, ps_hearing, st_hearing, loss_epoch_data_recieved_hearing, loss_epoch_rsquared_data_hearing = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_hearing, evts; n_epochs=20, lr=0.01, batch_size=256, hidden_chs=100)# |> CuArray)
+    dre_hearing, ps_hearing, st_hearing, loss_epoch_data_recieved_hearing, loss_epoch_rsquared_data_hearing = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_hearing, evts; n_epochs=100, lr=0.05, batch_size=256, hidden_chs=75)# |> CuArray)
     l_hearing, y_pred_hearing[:, :, :] = DeepRecurrentEncoder.test(dre_hearing, (Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x), f_hearing, evts, ps_hearing, st_hearing; subset_index=1:10, loss_function=mse)
     push!(loss_epoch_data_hearing, loss_epoch_data_recieved_hearing)
     push!(loss_epoch_opt_data_hearing, loss_epoch_rsquared_data_hearing)
@@ -102,7 +102,7 @@ end
 # ╔═╡ f2fbca49-8916-4b39-a3cf-a330c3919173
 # Training with combined stimuli - Sight + Hearing
 begin
-    dre_combined, ps_combined, st_combined, loss_epoch_data_recieved_combined, loss_epoch_rsquared_data_combined = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_combined, evts; n_epochs=20, lr=0.01, batch_size=256, hidden_chs=100)# |> CuArray)
+    dre_combined, ps_combined, st_combined, loss_epoch_data_recieved_combined, loss_epoch_rsquared_data_combined = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_combined, evts; n_epochs=100, lr=0.05, batch_size=256, hidden_chs=75)# |> CuArray)
     l_combined, y_pred_combined[:, :, :] = DeepRecurrentEncoder.test(dre_combined, (Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x), f_combined, evts, ps_combined, st_combined; subset_index=1:10, loss_function=mse)
     push!(loss_epoch_data_combined, loss_epoch_data_recieved_combined)
     push!(loss_epoch_opt_data_combined, loss_epoch_rsquared_data_combined)
