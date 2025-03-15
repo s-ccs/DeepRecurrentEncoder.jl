@@ -57,7 +57,8 @@ makedocs(
             # "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
         ],
         "References"=>[
-            "Functions summary" => "generated/references/methodReference.md"
+            "Functions summary" => "generated/references/methodReference.md",
+            "FA-PRA Contributions" => "generated/references/contributions.md"
         ]
     ]
 )
