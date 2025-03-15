@@ -27,11 +27,11 @@ AppStore -> JuliaUp,  or `winget install julia -s msstore` in CMD
 `curl -fsSL https://install.julialang.org | sh` in any shell
 </details>
 
-### Unfold.jl installation
+### DeepRecurrentEncoder.jl installation
 After installing Julia, Clone the repository and navigate into it and start a Julia REPL
 ```julia
 using Pkg
-Pkg.add("Unfold")
+Pkg.add(".")
 ```
 ## Usage
 
