@@ -48,17 +48,15 @@ makedocs(
             "Installation" => "generated/explanations/installation.md",
         ],
         "How To"=>[
-            "Basic Usage" => "generated/howto/basicUsage.md",
+            "Effect of stimuli input" => "generated/howto/stimuliEffect.md",
         ],
-        "Tutorials" => [
-            "Effect of hidden channels" => "generated/tutorials/hiddenChannelsEffect.md",
-            "Effect of stimuli input" => "generated/tutorials/stimuliEffect.md",
-            # "Getting Started" => "generated/tutorials/gettingstarted.md",
-            # "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
+        "Tutorials"=>[
+            "Basic Usage" => "generated/tutorials/basicUsage.md",
+            "Training on a GPU" => "generated/tutorials/gpUsage.md"
         ],
         "References"=>[
+            "Effect of hidden channels" => "generated/references/hiddenChannelsEffect.md",
             "Functions summary" => "generated/references/methodReference.md",
-            "FA-PRA Contributions" => "generated/references/contributions.md"
         ]
     ]
 )

@@ -1,4 +1,4 @@
-# hidden_chs.jl Notebook Documentation
+# Effect of hidden channels on deep recurrent encoder
 
 ## Overview
 This document provides an overview of a hidden_chs.jl notebook that utilizes deep recurrent encoding techniques with various hidden channel configurations. It demonstrates data simulation, model fitting, and visualization of results.

@@ -1,4 +1,4 @@
-# tutorial.jl Notebook Documentation
+# Tutorial : Using the deep recurrent encoder
 
 ## Overview
 This tutorial.jl notebook performs data simulation, trains a deep recurrent encoder model, and visualizes the results. It includes data preparation, model training, and evaluation steps.

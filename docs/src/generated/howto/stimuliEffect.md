@@ -1,7 +1,7 @@
-# Pluto.jl Notebook Documentation
+# How to change stimuli
 
 ## Overview
-This notebook implements a deep recurrent encoder for analyzing sensory stimuli (sight, hearing, and combined) using the Lux library in Julia. The data is simulated and then trained under three conditions: sight-only, hearing-only, and combined stimuli. Results are plotted to show the differences in predictions.
+This notebook implements a deep recurrent encoder for analyzing sensory stimuli (sight, hearing, and combined) using the Lux library in Julia. The data is simulated and then trained under three conditions: sight-only, hearing-only, and combined stimuli. Results are plotted to show the differences in predictions. The executable pluto notebook can be found in the _research folder under stimuli_effect.jl
 
 ## Setup
 
@@ -59,18 +59,6 @@ data, evts = testdata.simulate_data(rng, 100; sfreq=100, sight_effect=1);
 ```
 Simulates data with a customizable sight effect.
 
-## Initializing Loss and Prediction Variables
-Separate variables for storing training loss, test loss, and predictions are initialized for each stimulus type.
-```julia
-loss_epoch_data_sight = []
-loss_epoch_opt_data_sight = []
-loss_test_opt_sight = []
-y_pred_sight = zeros(Float64, 44, 227, 10)
-```
-(Similar blocks exist for `hearing` and `combined` stimuli.)
-
-
-
 ## Training Models
 
 Enable/Disable GPU usage.
@@ -82,11 +70,8 @@ Each block trains a `DeepRecurrentEncoder` model for each stimulus type. The mod
 
 ### Training with Sight Stimulus
 ```julia
-dre_sight, ps_sight, st_sight, loss_epoch_data_recieved_sight, loss_epoch_rsquared_data_sight = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_sight, evts; n_epochs=20, lr=0.01, batch_size=256, hidden_chs=100)
-l_sight, y_pred_sight[:, :, :] = DeepRecurrentEncoder.test(dre_sight, (Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x), f_sight, evts, ps_sight, st_sight; subset_index=1:10, loss_function=mse)
-push!(loss_epoch_data_sight, loss_epoch_data_recieved_sight)
-push!(loss_epoch_opt_data_sight, loss_epoch_rsquared_data_sight)
-push!(loss_test_opt_sight, l_sight)
+dre_sight, ps_sight, st_sight, loss_epoch_data_sight, loss_epoch_opt_data_sight = fit(DRE, Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x, f_sight, evts; n_epochs=20, lr=0.01, batch_size=256, hidden_chs=100)
+loss_test_opt_sight, y_pred_sight[:, :, :] = DeepRecurrentEncoder.test(dre_sight, (Float32.(data[:, 1:end÷2*2, :]) |> x -> use_gpu ? CuArray(x) : x), f_sight, evts, ps_sight, st_sight; subset_index=1:10, loss_function=mse)
 ```
 (Similar blocks exist for `hearing` and `combined` stimuli.)
 
