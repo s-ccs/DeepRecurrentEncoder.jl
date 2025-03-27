@@ -1,27 +1,318 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Effect of hidden channels · DeepRecurrentEncoder.jl</title><meta name="title" content="Effect of hidden channels · DeepRecurrentEncoder.jl"/><meta property="og:title" content="Effect of hidden channels · DeepRecurrentEncoder.jl"/><meta property="twitter:title" content="Effect of hidden channels · DeepRecurrentEncoder.jl"/><meta name="description" content="Documentation for DeepRecurrentEncoder.jl."/><meta property="og:description" content="Documentation for DeepRecurrentEncoder.jl."/><meta property="twitter:description" content="Documentation for DeepRecurrentEncoder.jl."/><meta property="og:url" content="https://s-ccs.github.io/DeepRecurrentEncoder.jl/generated/references/hiddenChannelsEffect/"/><meta property="twitter:url" content="https://s-ccs.github.io/DeepRecurrentEncoder.jl/generated/references/hiddenChannelsEffect/"/><link rel="canonical" href="https://s-ccs.github.io/DeepRecurrentEncoder.jl/generated/references/hiddenChannelsEffect/"/><script data-outdated-warner src="../../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../search_index.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../../">DeepRecurrentEncoder.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><span class="tocitem">Introduction</span><ul><li><a class="tocitem" href="../../explanations/introduction/">Basics</a></li><li><a class="tocitem" href="../../explanations/installation/">Installation</a></li></ul></li><li><span class="tocitem">How To</span><ul><li><a class="tocitem" href="../../howto/stimuliEffect/">Effect of stimuli input</a></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../tutorials/basicUsage/">Basic Usage</a></li><li><a class="tocitem" href="../../tutorials/gpUsage/">Training on a GPU</a></li></ul></li><li><span class="tocitem">References</span><ul><li class="is-active"><a class="tocitem" href>Effect of hidden channels</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Dependencies"><span>Dependencies</span></a></li><li><a class="tocitem" href="#Data-Preparation"><span>Data Preparation</span></a></li><li><a class="tocitem" href="#Model-Training"><span>Model Training</span></a></li><li><a class="tocitem" href="#Visualization"><span>Visualization</span></a></li><li><a class="tocitem" href="#Conclusion"><span>Conclusion</span></a></li></ul></li><li><a class="tocitem" href="../methodReference/">Functions summary</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">References</a></li><li class="is-active"><a href>Effect of hidden channels</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Effect of hidden channels</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/s-ccs/DeepRecurrentEncoder.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/s-ccs/DeepRecurrentEncoder.jl/blob/main/docs/src/generated/references/hiddenChannelsEffect.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Effect-of-hidden-channels-on-deep-recurrent-encoder"><a class="docs-heading-anchor" href="#Effect-of-hidden-channels-on-deep-recurrent-encoder">Effect of hidden channels on deep recurrent encoder</a><a id="Effect-of-hidden-channels-on-deep-recurrent-encoder-1"></a><a class="docs-heading-anchor-permalink" href="#Effect-of-hidden-channels-on-deep-recurrent-encoder" title="Permalink"></a></h1><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>This document provides an overview of a hidden_chs.jl notebook that utilizes deep recurrent encoding techniques with various hidden channel configurations. It demonstrates data simulation, model fitting, and visualization of results.</p><hr/><h2 id="Dependencies"><a class="docs-heading-anchor" href="#Dependencies">Dependencies</a><a id="Dependencies-1"></a><a class="docs-heading-anchor-permalink" href="#Dependencies" title="Permalink"></a></h2><h3 id="Julia-Packages-Used"><a class="docs-heading-anchor" href="#Julia-Packages-Used">Julia Packages Used</a><a id="Julia-Packages-Used-1"></a><a class="docs-heading-anchor-permalink" href="#Julia-Packages-Used" title="Permalink"></a></h3><pre><code class="language-julia hljs">using Pkg
-Pkg.activate(&quot;../../docs&quot;)</code></pre><pre><code class="language-julia hljs">using Random
+Pkg.activate(&quot;../../../.&quot;)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr32"><span class="sgr1">  Activating</span></span> project at `~/work/DeepRecurrentEncoder.jl/DeepRecurrentEncoder.jl/docs`</code></pre><pre><code class="language-julia hljs">using Random
 using PlutoLinks
 using Lux
 using LuxCUDA
 using CairoMakie
 using Statistics
 using StatsModels
-using StableRNGs</code></pre><pre><code class="language-julia hljs">@revise using DeepRecurrentEncoder</code></pre><h2 id="Data-Preparation"><a class="docs-heading-anchor" href="#Data-Preparation">Data Preparation</a><a id="Data-Preparation-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Preparation" title="Permalink"></a></h2><h3 id="Load-package-to-generate-test-data"><a class="docs-heading-anchor" href="#Load-package-to-generate-test-data">Load package to generate test data</a><a id="Load-package-to-generate-test-data-1"></a><a class="docs-heading-anchor-permalink" href="#Load-package-to-generate-test-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">testdata = @ingredients(&quot;../testdata.jl&quot;)</code></pre><p>Define a random number generator for the data generation module</p><pre><code class="language-julia hljs">rng = StableRNG(1)</code></pre><h3 id="Define-Statistical-formula-for-stimuli-data"><a class="docs-heading-anchor" href="#Define-Statistical-formula-for-stimuli-data">Define Statistical formula for stimuli data</a><a id="Define-Statistical-formula-for-stimuli-data-1"></a><a class="docs-heading-anchor-permalink" href="#Define-Statistical-formula-for-stimuli-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">f = @formula 0 ~ 0 + sight + hearing</code></pre><h3 id="Simulate-Data"><a class="docs-heading-anchor" href="#Simulate-Data">Simulate Data</a><a id="Simulate-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Simulate-Data" title="Permalink"></a></h3><pre><code class="language-julia hljs">data, evts = testdata.simulate_data(rng, 100; sfreq=100, sight_effect=1);</code></pre><h2 id="Model-Training"><a class="docs-heading-anchor" href="#Model-Training">Model Training</a><a id="Model-Training-1"></a><a class="docs-heading-anchor-permalink" href="#Model-Training" title="Permalink"></a></h2><h3 id="Define-Parameters"><a class="docs-heading-anchor" href="#Define-Parameters">Define Parameters</a><a id="Define-Parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Define-Parameters" title="Permalink"></a></h3><p>Defining some variables to hold the results of training and testing</p><pre><code class="language-julia hljs">use_gpu = false</code></pre><p>Enable/disaible GPU usage</p><pre><code class="language-julia hljs">lossepochdata = []
+using StableRNGs</code></pre><pre><code class="language-julia hljs">using DeepRecurrentEncoder</code></pre><h2 id="Data-Preparation"><a class="docs-heading-anchor" href="#Data-Preparation">Data Preparation</a><a id="Data-Preparation-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Preparation" title="Permalink"></a></h2><h3 id="Load-package-to-generate-test-data"><a class="docs-heading-anchor" href="#Load-package-to-generate-test-data">Load package to generate test data</a><a id="Load-package-to-generate-test-data-1"></a><a class="docs-heading-anchor-permalink" href="#Load-package-to-generate-test-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">include(&quot;../../../testdata.jl&quot;)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">simulate_data (generic function with 1 method)</code></pre><p>Define a random number generator for the data generation module</p><pre><code class="language-julia hljs">rng = StableRNG(1)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">StableRNGs.LehmerRNG(state=0x00000000000000000000000000000003)</code></pre><h3 id="Define-Statistical-formula-for-stimuli-data"><a class="docs-heading-anchor" href="#Define-Statistical-formula-for-stimuli-data">Define Statistical formula for stimuli data</a><a id="Define-Statistical-formula-for-stimuli-data-1"></a><a class="docs-heading-anchor-permalink" href="#Define-Statistical-formula-for-stimuli-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">f = @formula 0 ~ 0 + sight + hearing</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">FormulaTerm
+Response:
+  0
+Predictors:
+  0
+  sight(unknown)
+  hearing(unknown)</code></pre><h3 id="Simulate-Data"><a class="docs-heading-anchor" href="#Simulate-Data">Simulate Data</a><a id="Simulate-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Simulate-Data" title="Permalink"></a></h3><pre><code class="language-julia hljs">data, evts = simulate_data(rng, 100; sfreq=100, sight_effect=1);</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">([-0.7732866001573875 -1.249309542840107 … 0.12804501295179 0.07586465930365208; -0.3707674136577286 -2.3258444657205173 … -1.1481305554189039 -0.8264602337804219; … ; 0.24457644927180006 0.1450746289602736 … 0.18525047829348484 -0.20269763198898041; -0.05483451745365445 0.9858990591846297 … -0.3941893008220958 -0.6107328944838427;;; 0.2650548505658405 -0.5116719633133284 … -0.5769251591145167 0.5714882615737539; -0.06598670957043679 -0.45684140906053744 … -0.38704625300694284 1.4459067084394759; … ; 0.20076388305257153 1.2020956461614722 … 0.744880875172774 0.12728118596406393; -0.1159675461581826 1.2363930497733207 … 0.7594136756433337 -0.4125993831076161;;; 0.46688207860739644 0.3107638982524966 … 0.24408987125169943 1.2185550802316418; 0.4931815022520317 0.1324888865622771 … 0.2831782963369644 0.33945795209068724; … ; -0.7824197621259272 -0.808295679924207 … 1.2331687558559434 -0.12736294665314463; -0.35894132482466956 -0.9923915388695064 … 1.6423177392121897 -0.09183325398111679;;; … ;;; -0.6637405733165488 -0.5544330051946805 … -1.3962948403761528 -1.3045098613061545; -1.1948865851377417 -0.2834405072107876 … -0.5324770591242352 -1.4925746917726554; … ; -1.2214592013357517 -0.22889422853356514 … -1.0092431062531109 0.9233504474618527; -0.7124911635899759 -0.13901228522026526 … 0.061715313054939464 0.3140866242955118;;; -0.36513416763188733 -0.5729419205858761 … 0.8054931261053487 1.7298816383095696; -0.6064163426438454 -0.5530531359670239 … 0.3316172735091831 1.7631644230805417; … ; -0.4416517677414092 0.595224632981558 … 1.2334422316899238 -0.566291661892807; -1.2333599942934161 0.6411195331314049 … 0.9373548278767684 -1.2091292269054479;;; 2.796321430127752 0.4841110225132616 … -0.43703963692891046 0.26029769925268204; 2.4619565577951454 1.1093556484296216 … -0.3013200778347517 0.43998021166017715; … ; 0.4917889114864597 -0.04633054943336971 … 1.1977977526278927 0.529994021748412; 0.470976162839551 -0.3366115676111905 … 0.35966075194249364 0.9642872555070318], <span class="sgr1">400×3 DataFrame</span>
+<span class="sgr1"> Row </span>│<span class="sgr1"> hearing  sight   latency </span>
+     │<span class="sgr90"> String   String  Int64   </span>
+─────┼──────────────────────────
+   1 │ silent   red         154
+   2 │ loud     red         306
+   3 │ silent   blue        460
+   4 │ loud     blue        613
+   5 │ silent   red         763
+   6 │ loud     red         913
+   7 │ silent   blue       1063
+   8 │ loud     blue       1215
+  ⋮  │    ⋮       ⋮        ⋮
+ 394 │ loud     red       59881
+ 395 │ silent   blue      60031
+ 396 │ loud     blue      60181
+ 397 │ silent   red       60335
+ 398 │ loud     red       60485
+ 399 │ silent   blue      60636
+ 400 │ loud     blue      60787
+<span class="sgr36">                385 rows omitted</span>)</code></pre><h2 id="Model-Training"><a class="docs-heading-anchor" href="#Model-Training">Model Training</a><a id="Model-Training-1"></a><a class="docs-heading-anchor-permalink" href="#Model-Training" title="Permalink"></a></h2><h3 id="Define-Parameters"><a class="docs-heading-anchor" href="#Define-Parameters">Define Parameters</a><a id="Define-Parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Define-Parameters" title="Permalink"></a></h3><p>Defining some variables to hold the results of training and testing</p><pre><code class="language-julia hljs">use_gpu = false</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">false</code></pre><p>Enable/disaible GPU usage</p><pre><code class="language-julia hljs">lossepochdata = []
 lossepochrsquareddata = []
 loss_test_rsquared = []
 hidden_channels = [10,25,50,75,100]
-y_pred = zeros(5, 44, 227, 10)</code></pre><h3 id="Train-Model-with-Different-Hidden-Channels"><a class="docs-heading-anchor" href="#Train-Model-with-Different-Hidden-Channels">Train Model with Different Hidden Channels</a><a id="Train-Model-with-Different-Hidden-Channels-1"></a><a class="docs-heading-anchor-permalink" href="#Train-Model-with-Different-Hidden-Channels" title="Permalink"></a></h3><p>This trains a Deep recurrent encoder for different hidden channel configurations. Currently, the model is being tested for hidden channels [10, 25, 50, 75, 100]</p><pre><code class="language-julia hljs">for k in 1:5
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|&gt; x-&gt;use_gpu ? CuArray(x) : x,f,evts;n_epochs=25,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |&gt; CuArray)
+y_pred = zeros(5, 44, 227, 100)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">5×44×227×100 Array{Float64, 4}:
+[:, :, 1, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 1] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 1, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 2] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 1, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 3] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;;; … 
+
+[:, :, 1, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 98] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 1, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 99] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 1, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 3, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+;;; … 
+
+[:, :, 225, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 226, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+
+[:, :, 227, 100] =
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0</code></pre><h3 id="Train-Model-with-Different-Hidden-Channels"><a class="docs-heading-anchor" href="#Train-Model-with-Different-Hidden-Channels">Train Model with Different Hidden Channels</a><a id="Train-Model-with-Different-Hidden-Channels-1"></a><a class="docs-heading-anchor-permalink" href="#Train-Model-with-Different-Hidden-Channels" title="Permalink"></a></h3><p>This trains a Deep recurrent encoder for different hidden channel configurations. Currently, the model is being tested for hidden channels [10, 25, 50, 75, 100]</p><pre><code class="language-julia hljs">for k in 1:5
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|&gt; x-&gt;use_gpu ? CuArray(x) : x,f,evts;n_epochs=25,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])
 	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|&gt; x-&gt;use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:100,loss_function = mse)
 	push!(lossepochdata, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
 	push!(loss_test_rsquared,l)
-end</code></pre><hr/><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>Now, we try to visualize the results. Here, we also highlight the advantages and drawbacks of increasing the latent space size</p><h3 id="Mean-of-input-data"><a class="docs-heading-anchor" href="#Mean-of-input-data">Mean of input data</a><a id="Mean-of-input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-of-input-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(data, dims=3)[:, :, 1]; solid_color=:black)</code></pre><p><img src="../../_resources/images/Figure6.png" alt/></p><h3 id="Mean-Predictions-for-Different-Hidden-Channels"><a class="docs-heading-anchor" href="#Mean-Predictions-for-Different-Hidden-Channels">Mean Predictions for Different Hidden Channels</a><a id="Mean-Predictions-for-Different-Hidden-Channels-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-Predictions-for-Different-Hidden-Channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[1, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)
-series(mean(y_pred[2, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)
-series(mean(y_pred[3, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)
-series(mean(y_pred[4, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)
-series(mean(y_pred[5, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><p><strong><em>Image Placeholder: Insert visualizations for each hidden channel prediction here</em></strong> <img src="../../_resources/images/Figure7.png" alt/> <img src="../../_resources/images/Figure8.png" alt/> <img src="../../_resources/images/Figure9.png" alt/> <img src="../../_resources/images/Figure10.png" alt/> <img src="../../_resources/images/Figure11.png" alt/></p><h3 id="Loss-vs-Epoch-Plot"><a class="docs-heading-anchor" href="#Loss-vs-Epoch-Plot">Loss vs Epoch Plot</a><a id="Loss-vs-Epoch-Plot-1"></a><a class="docs-heading-anchor-permalink" href="#Loss-vs-Epoch-Plot" title="Permalink"></a></h3><pre><code class="language-julia hljs">flattened_data_lossmse = []
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Input data is a Array{Float32, 3} and Array{Float32, 3} with size (44, 230, 400),(44, 227, 400)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Input data is a Array{Float32, 3} and Array{Float32, 3} with size (44, 230, 400),(44, 227, 400)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Input data is a Array{Float32, 3} and Array{Float32, 3} with size (44, 230, 400),(44, 227, 400)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Input data is a Array{Float32, 3} and Array{Float32, 3} with size (44, 230, 400),(44, 227, 400)
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Input data is a Array{Float32, 3} and Array{Float32, 3} with size (44, 230, 400),(44, 227, 400)</code></pre><hr/><h2 id="Visualization"><a class="docs-heading-anchor" href="#Visualization">Visualization</a><a id="Visualization-1"></a><a class="docs-heading-anchor-permalink" href="#Visualization" title="Permalink"></a></h2><p>Now, we try to visualize the results. Here, we also highlight the advantages and drawbacks of increasing the latent space size</p><h3 id="Mean-of-input-data"><a class="docs-heading-anchor" href="#Mean-of-input-data">Mean of input data</a><a id="Mean-of-input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-of-input-data" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(data, dims=3)[:, :, 1]; solid_color=:black)</code></pre><img src="3bfc4d1d.png" alt="Example block output"/><h3 id="Mean-Predictions-for-Different-Hidden-Channels"><a class="docs-heading-anchor" href="#Mean-Predictions-for-Different-Hidden-Channels">Mean Predictions for Different Hidden Channels</a><a id="Mean-Predictions-for-Different-Hidden-Channels-1"></a><a class="docs-heading-anchor-permalink" href="#Mean-Predictions-for-Different-Hidden-Channels" title="Permalink"></a></h3><h3 id="10-hidden-channels"><a class="docs-heading-anchor" href="#10-hidden-channels">10 hidden channels</a><a id="10-hidden-channels-1"></a><a class="docs-heading-anchor-permalink" href="#10-hidden-channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[1, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><img src="a3890f82.png" alt="Example block output"/><h3 id="25-hidden-channels"><a class="docs-heading-anchor" href="#25-hidden-channels">25 hidden channels</a><a id="25-hidden-channels-1"></a><a class="docs-heading-anchor-permalink" href="#25-hidden-channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[2, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><img src="78b7fdea.png" alt="Example block output"/><h3 id="50-hidden-channels"><a class="docs-heading-anchor" href="#50-hidden-channels">50 hidden channels</a><a id="50-hidden-channels-1"></a><a class="docs-heading-anchor-permalink" href="#50-hidden-channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[3, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><img src="7a584907.png" alt="Example block output"/><h3 id="75-hidden-channels"><a class="docs-heading-anchor" href="#75-hidden-channels">75 hidden channels</a><a id="75-hidden-channels-1"></a><a class="docs-heading-anchor-permalink" href="#75-hidden-channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[4, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><img src="163b326b.png" alt="Example block output"/><h3 id="100-hidden-channels"><a class="docs-heading-anchor" href="#100-hidden-channels">100 hidden channels</a><a id="100-hidden-channels-1"></a><a class="docs-heading-anchor-permalink" href="#100-hidden-channels" title="Permalink"></a></h3><pre><code class="language-julia hljs">series(mean(y_pred[5, :, :, :], dims=3)[:, :, 1]&#39;; solid_color=:black)</code></pre><img src="dffad94a.png" alt="Example block output"/><h3 id="Loss-vs-Epoch-Plot"><a class="docs-heading-anchor" href="#Loss-vs-Epoch-Plot">Loss vs Epoch Plot</a><a id="Loss-vs-Epoch-Plot-1"></a><a class="docs-heading-anchor-permalink" href="#Loss-vs-Epoch-Plot" title="Permalink"></a></h3><pre><code class="language-julia hljs">flattened_data_lossmse = []
 line_color_lossmse = [:orange, :brown, :red, :black, :blue]
 labels_lossmse = [&quot;Hidden Channel 10&quot;, &quot;Hidden Channel 25&quot;, &quot;Hidden Channel 50&quot;, &quot;Hidden Channel 75&quot;, &quot;Hidden Channel 100&quot;]
 for k in 1:5
@@ -33,4 +324,4 @@ for (i, data_lossmse) in enumerate(flattened_data_lossmse)
     lines!(ax_lossmse, 1:length(data_lossmse), data_lossmse, label=labels_lossmse[i], color=line_color_lossmse[i])
 end
 axislegend(ax_lossmse)
-fig_lossmse</code></pre><p><img src="../../_resources/images/Figure12.png" alt/></p><hr/><h2 id="Conclusion"><a class="docs-heading-anchor" href="#Conclusion">Conclusion</a><a id="Conclusion-1"></a><a class="docs-heading-anchor-permalink" href="#Conclusion" title="Permalink"></a></h2><p>This notebook demonstrates data simulation, model training, and visualization of deep recurrent encoding with different hidden channel sizes. The results provide insights into the effectiveness of different hidden channel configurations in predicting time-series data.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../tutorials/gpUsage/">« Training on a GPU</a><a class="docs-footer-nextpage" href="../methodReference/">Functions summary »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.9.0 on <span class="colophon-date" title="Tuesday 25 March 2025 17:11">Tuesday 25 March 2025</span>. Using Julia version 1.11.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+fig_lossmse</code></pre><img src="2d97f195.png" alt="Example block output"/><hr/><h2 id="Conclusion"><a class="docs-heading-anchor" href="#Conclusion">Conclusion</a><a id="Conclusion-1"></a><a class="docs-heading-anchor-permalink" href="#Conclusion" title="Permalink"></a></h2><p>This notebook demonstrates data simulation, model training, and visualization of deep recurrent encoding with different hidden channel sizes. The results provide insights into the effectiveness of different hidden channel configurations in predicting time-series data.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../tutorials/gpUsage/">« Training on a GPU</a><a class="docs-footer-nextpage" href="../methodReference/">Functions summary »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.9.0 on <span class="colophon-date" title="Thursday 27 March 2025 08:49">Thursday 27 March 2025</span>. Using Julia version 1.11.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
