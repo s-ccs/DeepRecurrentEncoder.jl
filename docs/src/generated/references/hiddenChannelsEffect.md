@@ -8,11 +8,11 @@ This document provides an overview of a hidden_chs.jl notebook that utilizes dee
 ## Dependencies
 
 ### Julia Packages Used
-```julia
+```@example run
 using Pkg
-Pkg.activate("../../docs")
+Pkg.activate("../../../.")
 ```
-```julia
+```@example run
 using Random
 using PlutoLinks
 using Lux
@@ -22,30 +22,30 @@ using Statistics
 using StatsModels
 using StableRNGs
 ```
-```julia
-@revise using DeepRecurrentEncoder
+```@example run
+using DeepRecurrentEncoder
 ```
 
 ## Data Preparation
 
 ### Load package to generate test data
-```julia
-testdata = @ingredients("../testdata.jl")
+```@example run
+include("../../../testdata.jl")
 ```
 
 Define a random number generator for the data generation module
-```julia
+```@example run
 rng = StableRNG(1)
 ```
 
 ### Define Statistical formula for stimuli data
-```julia
+```@example run
 f = @formula 0 ~ 0 + sight + hearing
 ```
 
 ### Simulate Data
-```julia
-data, evts = testdata.simulate_data(rng, 100; sfreq=100, sight_effect=1);
+```@example run
+data, evts = simulate_data(rng, 100; sfreq=100, sight_effect=1);
 ```
 
 ## Model Training
@@ -54,24 +54,24 @@ data, evts = testdata.simulate_data(rng, 100; sfreq=100, sight_effect=1);
 
 Defining some variables to hold the results of training and testing
 
-```julia
+```@example run
 use_gpu = false
 ```
 Enable/disaible GPU usage
 
-```julia
+```@example run
 lossepochdata = []
 lossepochrsquareddata = []
 loss_test_rsquared = []
 hidden_channels = [10,25,50,75,100]
-y_pred = zeros(5, 44, 227, 10)
+y_pred = zeros(5, 44, 227, 100)
 ```
 
 ### Train Model with Different Hidden Channels
 This trains a Deep recurrent encoder for different hidden channel configurations. Currently, the model is being tested for hidden channels [10, 25, 50, 75, 100]
-```julia
+```@example run
 for k in 1:5
-	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=25,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])# |> CuArray)
+	dre,ps, st, loss_epoch_data, loss_epoch_rsquared_data = fit(DRE, Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x,f,evts;n_epochs=25,lr=0.1,batch_size=256, hidden_chs = hidden_channels[k])
 	l,y_pred[k,:,:,:] = DeepRecurrentEncoder.test(dre,(Float32.(data[:,1:end÷2*2,:])|> x->use_gpu ? CuArray(x) : x),f,evts,ps,st;subset_index=1:100,loss_function = mse)
 	push!(lossepochdata, loss_epoch_data)
 	push!(lossepochrsquareddata, loss_epoch_rsquared_data)
@@ -87,28 +87,34 @@ Now, we try to visualize the results. Here, we also highlight the advantages and
 
 ### Mean of input data
 
-```julia
+```@example run
 series(mean(data, dims=3)[:, :, 1]; solid_color=:black)
 ```
-![](../_resources/images/Figure6.png)
 
 ### Mean Predictions for Different Hidden Channels
-```julia
+### 10 hidden channels
+```@example run
 series(mean(y_pred[1, :, :, :], dims=3)[:, :, 1]'; solid_color=:black)
+```
+### 25 hidden channels
+```@example run
 series(mean(y_pred[2, :, :, :], dims=3)[:, :, 1]'; solid_color=:black)
+```
+### 50 hidden channels
+```@example run
 series(mean(y_pred[3, :, :, :], dims=3)[:, :, 1]'; solid_color=:black)
+```
+### 75 hidden channels
+```@example run
 series(mean(y_pred[4, :, :, :], dims=3)[:, :, 1]'; solid_color=:black)
+```
+### 100 hidden channels
+```@example run
 series(mean(y_pred[5, :, :, :], dims=3)[:, :, 1]'; solid_color=:black)
 ```
-**_Image Placeholder: Insert visualizations for each hidden channel prediction here_**
-![](../_resources/images/Figure7.png)
-![](../_resources/images/Figure8.png)
-![](../_resources/images/Figure9.png)
-![](../_resources/images/Figure10.png)
-![](../_resources/images/Figure11.png)
 
 ### Loss vs Epoch Plot
-```julia
+```@example run
 flattened_data_lossmse = []
 line_color_lossmse = [:orange, :brown, :red, :black, :blue]
 labels_lossmse = ["Hidden Channel 10", "Hidden Channel 25", "Hidden Channel 50", "Hidden Channel 75", "Hidden Channel 100"]
@@ -123,7 +129,6 @@ end
 axislegend(ax_lossmse)
 fig_lossmse
 ```
-![](../_resources/images/Figure12.png)
 
 ---
 
