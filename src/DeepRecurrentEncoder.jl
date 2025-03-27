@@ -7,7 +7,8 @@ using StatsModels
 using DataFrames
 using Random
 using LuxCUDA
-using ProgressMeter
+using ProgressLogging
+using GPUArrays
 
 include("model.jl")
 include("traintest.jl")
@@ -22,5 +23,6 @@ export train
 export test
 export add_mask
 export fit, fit!
+export train_test_split
 export @formula # reexport
 end

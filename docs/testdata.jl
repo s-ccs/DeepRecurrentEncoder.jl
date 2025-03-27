@@ -32,7 +32,7 @@ function simulate_data(rng, epochs; sight_effect=1, sfreq=100)
         formula=@formula(0 ~ 1 + sight),
         β=[-5, 1 * sight_effect]
     )
-    hart = headmodel(type="hartmut")
+    hart = headmodel()
     #6000 part around the brain we have selected 3 parts here
     #mc = UnfoldSim.MultichannelComponent(c, hart => "Left Postcentral Gyrus")
     mc = UnfoldSim.MultichannelComponent(p1, hart => hart.cortical["label"][50])
@@ -46,14 +46,14 @@ function simulate_data(rng, epochs; sight_effect=1, sfreq=100)
     return (data[1], data[2])
 end
 
-function load_eeg(nChannels::Int, nEpochs::Int, eeg_path="data/sub-34_task-WLFO_eeg.set", event_path="data/sub-34_task-WLFO_events.tsv")
-    # 128ch channels
-    eeglabdata = PyMNE.io.read_raw_eeglab(eeg_path)
-    eeglabdata.resample(256)
-    events = CSV.read(event_path, DataFrame)
-    events.latency = events.onset ./ pyconvert(Float64, eeglabdata.info["sfreq"])
-    datamatrix = pyconvert(Array, eeglabdata.get_data(units="uV"))
-    evts_fixationonly = subset(events, :type => x -> x .== "fixation")
-    data_e, times = Unfold.epoch(data=datamatrix, tbl=evts_fixationonly, τ=(-0.3, 1.0), sfreq=pyconvert(Float64, eeglabdata.info["sfreq"]))
-    return data_e[1:nChannels, :, 1:nEpochs], times, evts_fixationonly[1:nEpochs, :]
-end
+#function load_eeg(nChannels::Int, nEpochs::Int, eeg_path="data/sub-34_task-WLFO_eeg.set", event_path="data/sub-34_task-WLFO_events.tsv")
+#    # 128ch channels
+#    eeglabdata = PyMNE.io.read_raw_eeglab(eeg_path)
+#    eeglabdata.resample(256)
+#    events = CSV.read(event_path, DataFrame)
+#    events.latency = events.onset ./ pyconvert(Float64, eeglabdata.info["sfreq"])
+#    datamatrix = pyconvert(Array, eeglabdata.get_data(units="uV"))
+#    evts_fixationonly = subset(events, :type => x -> x .== "fixation")
+#    data_e, times = Unfold.epoch(data=datamatrix, tbl=evts_fixationonly, τ=(-0.3, 1.0), sfreq=pyconvert(Float64, eeglabdata.info["sfreq"]))
+#    return data_e[1:nChannels, :, 1:nEpochs], times, evts_fixationonly[1:nEpochs, :]
+#end

@@ -43,9 +43,20 @@ makedocs(
     ),
     pages = Any[
         "Home" => "index.md",
-        "Tutorials" => [
-            "Autoencoder EEG Meeting Minutes" => "generated/tutorials/Autoencoder_EEG_Meeting_Minutes.md",
-            "Getting Started" => "generated/tutorials/gettingstarted.md"
+        "Introduction"=>[
+            "Basics" => "generated/explanations/introduction.md",
+            "Installation" => "generated/explanations/installation.md",
+        ],
+        "How To"=>[
+            "Effect of stimuli input" => "generated/howto/stimuliEffect.md",
+        ],
+        "Tutorials"=>[
+            "Basic Usage" => "generated/tutorials/basicUsage.md",
+            "Training on a GPU" => "generated/tutorials/gpUsage.md"
+        ],
+        "References"=>[
+            "Effect of hidden channels" => "generated/references/hiddenChannelsEffect.md",
+            "Functions summary" => "generated/references/methodReference.md",
         ]
     ]
 )
